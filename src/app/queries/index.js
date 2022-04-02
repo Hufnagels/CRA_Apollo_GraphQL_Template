@@ -1,7 +1,20 @@
 import {
   gql
 } from "@apollo/client";
-
+/*
+query GetUsers($search: String, $limit: Int) {
+    getUsers(search: $search, limit: $limit) {
+      users {
+        username
+        first_name
+        family_name
+        email
+        _id
+        updatedAt
+      }
+    }
+  }
+*/
 export const GET_USERS = gql`
   query GetUsers($search: String, $limit: Int) {
     getUsers(search: $search, limit: $limit) {
@@ -19,23 +32,35 @@ export const GET_USERS = gql`
 
 export const GET_MAPS = gql`
   query GetMaps($search: String) {
-  getMaps(search: $search) {
-    maps {
-      _id
-      title
-      description
-      originalMap
-      currentMap
-      mapimage
-      editinghistory {
-        editedMap
-        updated
+    getMaps(search: $search) {
+      maps {
+        _id
+        title
+        description
+        originalMap
+        currentMap
+        mapimage
+        editinghistory {
+          editedMap
+          updated
+        }
       }
     }
   }
-}
 `;
 
+export const GET_POSTS = gql`
+  query GetPosts {
+    getPosts {
+      posts {
+        author
+        title
+        description
+        _id
+      }
+    }
+  }
+`
 export const ADD_POST = gql`
   mutation CreatePost($post: PostInput) {
     createPost(post: $post) {
