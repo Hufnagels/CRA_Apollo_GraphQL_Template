@@ -27,7 +27,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import SearchAppBar from './SearchAppBar';
 import { GET_USERS } from "../../app/queries";
 
+
 const UsersListIndex = () => {
+  
   const [search,setSearch] = React.useState('')
   const [users,setUsers] = React.useState([])
   const {data, loading, error} = useQuery(GET_USERS);
@@ -68,6 +70,7 @@ console.log(search)
             return <UserGridItem fn={user} key={idx} title="Users"/>
           })}
         </Grid>
+        
       </Box>
     </React.Fragment>
   )
