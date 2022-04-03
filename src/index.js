@@ -8,6 +8,8 @@ import {
 
 // Material
 import { ThemeProvider } from '@mui/material/styles';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
 
 // Custom
 import './index.scss';
@@ -26,11 +28,14 @@ const container = document.getElementById('root');
 const root = createRoot(container);
 root.render(
   <React.StrictMode>
-    <ThemeProvider theme={CustomTheme} >
-      <ApolloProvider client={client}>
-        <App />
-      </ApolloProvider>
-    </ThemeProvider>
+     <LocalizationProvider dateAdapter={AdapterDateFns}>
+       <ThemeProvider theme={CustomTheme} >
+          <ApolloProvider client={client}>
+            <App />
+          </ApolloProvider>
+        </ThemeProvider>
+     </LocalizationProvider>
+    
   </React.StrictMode>
 );
 

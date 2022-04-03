@@ -15,18 +15,12 @@ import {
   CircularProgress,
   IconButton,
 } from '@mui/material'
-
-import { styled, alpha } from '@mui/material/styles';
 import { red } from '@mui/material/colors';
-
-import MenuIcon from '@mui/icons-material/Menu';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import SearchIcon from '@mui/icons-material/Search';
 
 // Custom
 import SearchAppBar from './SearchAppBar';
-import { GET_USERS } from "../../app/queries";
-
+import {GET_USERS} from "../../app/queries";
 
 const UsersListIndex = () => {
   

@@ -18,8 +18,8 @@ const CustomTheme = createTheme({
     },
     custom: {
       light: grey[100],
-      main: grey[800],
-      dark: grey[900],
+      main: grey[400],
+      dark: grey[700],
       contrastText: grey[50],
     },
   },

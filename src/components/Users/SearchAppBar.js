@@ -26,7 +26,7 @@ const Search = styled('div')(({ theme }) => ({
   backgroundColor: alpha(theme.palette.common.black, 0.15),
   '&:hover': {
     backgroundColor: alpha(theme.palette.common.black, 0.25),
-    color:grey[800]
+    color:theme.palette.custom.light
   },
   margin: theme.spacing(1, 1, 1, 0),
   width: '100%',
@@ -46,7 +46,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     //paddingLeft: `calc( ${theme.spacing(2)})`,
     transition: theme.transitions.create('width'),
     width: '100%',
-    color: grey[900],
+    color: theme.palette.custom.light,
     [theme.breakpoints.up('sm')]: {
       width: '12ch',
       '&:focus': {
@@ -96,7 +96,7 @@ const CustomizedSearch = ({fn, setSearch, setUsers}) => {
             value={searchString}
           />
           <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={ (e) => {sendFormData(e)}}>
-            <SearchIcon color={grey[100]}  />
+            <SearchIcon color="custom"  />
           </IconButton>
         </Box>
       </Search>
@@ -110,12 +110,12 @@ export default function SearchAppBar({title, fn, setSearch, setUsers}) {
   return (
     <React.Fragment>
       <Box sx={{ flexGrow: 1 }} style={{paddingBottom:'0.5rem'}}>
-        <AppBar position="static" style={{backgroundColor: theme.palette.custom.light}}>
+        <AppBar position="static" style={{backgroundColor: theme.palette.custom.dark}}>
           <Toolbar disableGutters variant="dense">
             <Box sx={{ m:1, display: { xs: 'flex', md: 'block' } }}>
               <Button 
                 variant="contained" 
-                color="secondary" 
+                color="primary" 
                 endIcon={<AddIcon />}
                 onClick={ (e) => { setOpenDialog(true) } }
               >Add</Button>
@@ -125,7 +125,7 @@ export default function SearchAppBar({title, fn, setSearch, setUsers}) {
                 variant="h6"
                 noWrap
                 component="div"
-                color="secondary"
+                color="custom.light"
                 sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
               >
                 {title}
