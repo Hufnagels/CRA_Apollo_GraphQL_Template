@@ -12,43 +12,60 @@ import {
   Card,
   CardHeader,
   CardContent,
-  Typography,
   CircularProgress,
-  Button,
+  IconButton,
 } from '@mui/material'
+
+import { styled, alpha } from '@mui/material/styles';
 import { red } from '@mui/material/colors';
-import IconButton from '@mui/material/IconButton';
+
+import MenuIcon from '@mui/icons-material/Menu';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import SearchIcon from '@mui/icons-material/Search';
 
 // Custom
-import { GET_USERS } from "../app/queries";
+import SearchAppBar from './SearchAppBar';
+import { GET_USERS } from "../../app/queries";
 
-const Users = () => {
-  const [search,setSearch] = React.useState('n2')
+const UsersListIndex = () => {
+  const [search,setSearch] = React.useState('')
+  const [users,setUsers] = React.useState([])
   const {data, loading, error} = useQuery(GET_USERS);
   const [
     fetchUsers,
     {data: filteredUser, loading: filteredLoading, error: filteredError}
-  ] = useLazyQuery(GET_USERS, {
-    variables: {
-      search: search,
-      page: 1,
-      limit: 20
-    }
-  })
+  ] = useLazyQuery(GET_USERS)
+
+  //////////////////// TEST
+  React.useEffect(() => {
+    if(!search) return
+console.log(search)
+  },[search])
+  ////////////////////
+
+  React.useEffect(() => {
+    if(!data) return
+    setUsers(data.getUsers.users)
+  },[data])
 
   if (loading) return <CircularProgress color="secondary" />
-if(filteredUser) console.log(filteredUser.getUsers)
+//if(filteredUser) console.log(filteredUser.getUsers)
   return (
     <React.Fragment>
-      <Button onClick={fetchUsers}>Fetch</Button>
+      
       <Box style={{padding:'0.5rem'}}>
+        <SearchAppBar 
+          title={'Users list'} 
+          fn={fetchUsers} 
+          setSearch={setSearch} 
+          setUsers={setUsers}
+        />
         <Grid container spacing={{ sm: 1, md: 1 }} >
-          {data.getUsers.users.map((user, idx) => {
-            return <GridItem fn={user} key={idx} title="Users"/>
+          {users && users.map((user, idx) => {
+            return <UserGridItem fn={user} key={idx} title="Users"/>
           })}
           {filteredUser && filteredUser.getUsers.users.map((user, idx) => {
-            return <GridItem fn={user} key={idx} title="Users"/>
+            return <UserGridItem fn={user} key={idx} title="Users"/>
           })}
         </Grid>
       </Box>
@@ -56,9 +73,9 @@ if(filteredUser) console.log(filteredUser.getUsers)
   )
 }
 
-export default Users
+export default UsersListIndex
 
-const GridItem = ({fn, title}) => {
+const UserGridItem = ({fn, title}) => {
   return (
     <Grid item xs={12} sm={12} md={6} lg={4} xl={3}>
             <Card variant="outlined" >
