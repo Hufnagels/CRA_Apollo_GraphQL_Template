@@ -1,9 +1,7 @@
 import React from 'react'
-import { useFormik, Formik, Form } from 'formik';
+import { useFormik, } from 'formik';
 import * as yup from 'yup';
-import {
-  useMutation
-} from "@apollo/client";
+import _ from 'lodash';
 
 // Material
 import {
@@ -15,14 +13,13 @@ import {
   DialogTitle,
   TextField,
 } from '@mui/material';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import DatePicker from '@mui/lab/DatePicker';
 import MobileDatePicker from '@mui/lab/MobileDatePicker';
-import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 
 // Custom
-import { GET_USERS } from "../../app/queries";
+import {
+  useMutation
+} from "@apollo/client";
+import { ADD_USER } from "../../app/queries";
 
 const validationSchema = yup.object({
   username: yup
@@ -55,25 +52,38 @@ const validationSchema = yup.object({
     .oneOf([yup.ref('password'), null], 'Passwords must match')
 });
 
-const UserAdd = ({onClick, active}) => {
+const UserAdd = ({onClick, active, refetch}) => {
+  
+  const [dateOfBirth, setDateOfBirth] = React.useState(new Date())
+  const [open, setOpen] = React.useState(active);
+
+  const [createUser, { data, loading, error }] = useMutation(ADD_USER);
+
   const formik = useFormik({
     initialValues: {
-      username:'',
-      firstName:'',
-      lastName:'',
-      date_of_birth:null,
-      email: '',
-      password: '',
-      passwordConfirmation: '',
+      "username":'',
+      "firstName":'',
+      "lastName":'',
+      "date_of_birth":null,
+      "email": '',
+      "password": 'Mancika72',
+      "passwordConfirmation": 'Mancika72',
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
       values.date_of_birth = dateOfBirth.toISOString()
-      alert(JSON.stringify(values, null, 2));
+      const newData = _.omit(values, 'passwordConfirmation')
+console.log(JSON.stringify(newData, null, 2))
+console.log(newData)
+      //alert(JSON.stringify(newData, null, 2));
+      setOpen(false)
+      onClick(false)
+      createUser({variables:{user:newData}}).then((res) => {
+console.log(res)
+      })
+      refetch();
     },
-  });
-  const [dateOfBirth, setDateOfBirth] = React.useState(new Date())
-  const [open, setOpen] = React.useState(active);
+  })
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -83,6 +93,7 @@ const UserAdd = ({onClick, active}) => {
     setOpen(false);
     onClick(false)
     formik.resetForm()
+    
   };
 
   React.useEffect(()=>{

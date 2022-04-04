@@ -19,7 +19,8 @@ import reportWebVitals from './reportWebVitals';
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_NODESERVER_BASEURL,
-  cache: new InMemoryCache()
+  cache: new InMemoryCache(),
+  connectToDevTools: true
 });
 
 

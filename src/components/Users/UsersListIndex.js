@@ -26,9 +26,9 @@ const UsersListIndex = () => {
   
   const [search,setSearch] = React.useState('')
   const [users,setUsers] = React.useState([])
-  const {data, loading, error} = useQuery(GET_USERS);
+  const {data, loading, error, refetch} = useQuery(GET_USERS);
   const [
-    fetchUsers,
+    fetchFilteredUsers,
     {data: filteredUser, loading: filteredLoading, error: filteredError}
   ] = useLazyQuery(GET_USERS)
 
@@ -36,6 +36,7 @@ const UsersListIndex = () => {
   React.useEffect(() => {
     if(!search) return
 console.log(search)
+refetch()
   },[search])
   ////////////////////
 
@@ -45,6 +46,7 @@ console.log(search)
   },[data])
 
   if (loading) return <CircularProgress color="secondary" />
+  if (error) return `Error! ${error}`
 //if(filteredUser) console.log(filteredUser.getUsers)
   return (
     <React.Fragment>
@@ -52,9 +54,10 @@ console.log(search)
       <Box style={{padding:'0.5rem'}}>
         <SearchAppBar 
           title={'Users list'} 
-          fn={fetchUsers} 
+          fn={fetchFilteredUsers} 
           setSearch={setSearch} 
           setUsers={setUsers}
+          refetch={refetch}
         />
         <Grid container spacing={{ sm: 1, md: 1 }} >
           {users && users.map((user, idx) => {

@@ -103,7 +103,7 @@ const CustomizedSearch = ({fn, setSearch, setUsers}) => {
   )
 }
 
-export default function SearchAppBar({title, fn, setSearch, setUsers}) {
+export default function SearchAppBar({title, fn, setSearch, setUsers, refetch}) {
   const theme = useTheme();
   const [openDialog, setOpenDialog] = React.useState(false)
 
@@ -146,7 +146,7 @@ export default function SearchAppBar({title, fn, setSearch, setUsers}) {
           </Toolbar>
         </AppBar>
       </Box>
-      <UserAdd onClick={setOpenDialog} active={openDialog} />
+      <UserAdd onClick={setOpenDialog} active={openDialog} refetch={refetch}/>
     </React.Fragment>
     
   );

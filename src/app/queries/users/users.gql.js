@@ -15,6 +15,8 @@ query GetUsers($search: String, $limit: Int) {
     }
   }
 */
+
+// QUERIES
 export const GET_USERS = gql`
   query GetUsers($search: String, $limit: Int) {
     getUsers(search: $search, limit: $limit) {
@@ -30,8 +32,9 @@ export const GET_USERS = gql`
   }
 `;
 
+// MUTATIONS
 export const ADD_USER = gql`
-  mutation CreateUser($user: UserInput) {
+  mutation CreateUser($user: UserInputAdd) {
     createUser(user: $user) {
       username
       firstName
@@ -44,13 +47,13 @@ export const ADD_USER = gql`
 `;
 
 export const EDIT_USER = gql`
-  mutation($id: Int, $firstName: String, $firstName: String, $email: String, $date_of_birth: String) {
+  mutation($id: String, $firstName: String, $firstName: String, $email: String, $date_of_birth: String) {
     updateUserInfo (id: $id, firstName: $firstName, lastName: $lastName, email: $email, date_of_birth: $date_of_birth)
   }
 `;
 
 export const DELETE_USER = gql`
-  mutation($id: Int) {
+  mutation($id: String) {
     deleteUser(id: $id)
   }
 `
