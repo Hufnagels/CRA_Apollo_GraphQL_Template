@@ -21,6 +21,7 @@ import {
 } from "@apollo/client";
 import { ADD_USER } from "../../app/queries";
 
+
 const validationSchema = yup.object({
   username: yup
     .string('Enter your username')
@@ -52,7 +53,7 @@ const validationSchema = yup.object({
     .oneOf([yup.ref('password'), null], 'Passwords must match')
 });
 
-const UserAdd = ({onClick, active, refetch}) => {
+const UserAdd = ({onClick, active, refetch, setUsers}) => {
   
   const [dateOfBirth, setDateOfBirth] = React.useState(new Date())
   const [open, setOpen] = React.useState(active);
@@ -73,15 +74,12 @@ const UserAdd = ({onClick, active, refetch}) => {
     onSubmit: (values) => {
       values.date_of_birth = dateOfBirth.toISOString()
       const newData = _.omit(values, 'passwordConfirmation')
-console.log(JSON.stringify(newData, null, 2))
-console.log(newData)
-      //alert(JSON.stringify(newData, null, 2));
       setOpen(false)
       onClick(false)
-      createUser({variables:{user:newData}}).then((res) => {
-console.log(res)
+      createUser({variables:{input:newData}}).then((res) => {
+        setUsers(prevState => [...prevState, res.data.createUser])
+        refetch();
       })
-      refetch();
     },
   })
 

@@ -56,15 +56,19 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const CustomizedSearch = ({fn, setSearch, setUsers}) => {
-  const [searchString, setSearchString] = React.useState('')
+const CustomizedSearch = ({fn, setSearch, search, setUsers}) => {
+console.log('CustomizedSearch')
+  const [searchString, setSearchString] = React.useState(search)
 
-  const searchFieldUpdate = (e) => { 
+  const searchFieldUpdate = (e) => {
+    e.preventDefault()
+    const search = e.target.value === '' ? null : e.target.value
     setSearchString(e.target.value)
-    setSearch(e.target.value)
+    //setSearch(e.target.value)
   }
 
-  const sendFormData = (e) => {
+  const sendSearchData = (e) => {
+  console.log('sendSearchData')
     e.preventDefault()
     setUsers([])
     fn( {
@@ -74,12 +78,12 @@ const CustomizedSearch = ({fn, setSearch, setUsers}) => {
         limit: 20
       }
     })
-    setSearchString('')
+    //setSearchString(null)
   }
 
   const checkKeyPress = (e) => {
     if (e.key === 'Enter') {
-      sendFormData(e)
+      sendSearchData(e)
     }
   }
   return (
@@ -93,9 +97,9 @@ const CustomizedSearch = ({fn, setSearch, setUsers}) => {
             inputProps={{ 'aria-label': 'search' }}
             onChange={(e) => searchFieldUpdate(e)}
             onKeyPress={(e) =>{checkKeyPress(e)}}
-            value={searchString}
+            value={searchString === null ? '' : searchString}
           />
-          <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={ (e) => {sendFormData(e)}}>
+          <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={ (e) => {sendSearchData(e)}}>
             <SearchIcon color="custom"  />
           </IconButton>
         </Box>
@@ -103,7 +107,8 @@ const CustomizedSearch = ({fn, setSearch, setUsers}) => {
   )
 }
 
-export default function SearchAppBar({title, fn, setSearch, setUsers, refetch}) {
+export default function SearchAppBar({title, fn, setSearch, search, setUsers, refetch}) {
+console.log('SearchAppBar')
   const theme = useTheme();
   const [openDialog, setOpenDialog] = React.useState(false)
 
@@ -130,23 +135,12 @@ export default function SearchAppBar({title, fn, setSearch, setUsers, refetch}) 
               >
                 {title}
               </Typography>
-            </Box>  
-
-            {/* <IconButton
-              size="large"
-              edge="start"
-              color="secondary"
-              aria-label="open drawer"
-              sx={{ mr: 2 }}
-            >
-              <MenuIcon />
-            </IconButton> */}
-
-            <CustomizedSearch fn={fn} setSearch={setSearch} setUsers={setUsers} />
+            </Box>
+            <CustomizedSearch fn={fn} setSearch={setSearch} search={search} setUsers={setUsers} />
           </Toolbar>
         </AppBar>
       </Box>
-      <UserAdd onClick={setOpenDialog} active={openDialog} refetch={refetch}/>
+      <UserAdd onClick={setOpenDialog} active={openDialog} /* refetch={refetch} *//>
     </React.Fragment>
     
   );

@@ -1,41 +1,30 @@
 import {
   gql
 } from "@apollo/client";
-/*
-query GetUsers($search: String, $limit: Int) {
-    getUsers(search: $search, limit: $limit) {
-      users {
-        username
-        firstName
-        lastName
-        email
-        _id
-        updatedAt
-      }
-    }
-  }
-*/
 
 // QUERIES
 export const GET_USERS = gql`
-  query GetUsers($search: String, $limit: Int) {
-    getUsers(search: $search, limit: $limit) {
+  query GetUsers($search: String, $page: Int, $limit: Int) {
+    getUsers(search: $search, page: $page, limit: $limit) {
       users {
+        _id
         username
         firstName
         lastName
         email
-        _id
         updatedAt
+        createdAt
       }
+      currentPage
+      totalPages
     }
   }
 `;
 
 // MUTATIONS
 export const ADD_USER = gql`
-  mutation CreateUser($user: UserInputAdd) {
-    createUser(user: $user) {
+  mutation CreateUser($input: UserInputAdd) {
+    createUser(input: $input) {
       username
       firstName
       lastName
