@@ -23,6 +23,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 const pages = [
   {name: 'Users', link: '/app/users'},
   {name: 'Courses', link: '/app/courses'},
+  {name: 'Maps', link: '/app/maps'},
   {name: 'Blogs', link: '/app/blogs'},
   {name: 'Home', link: '/'},
 ];

@@ -24,10 +24,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 
 // Custom
-import UsersListIndexItem from './UsersListIndexItem';
-import SearchAppBar from './SearchAppBar';
-import {GET_USERS} from "../../app/queries";
-import UserAdd from './UserAdd';
+import PostsListIndexItem from './PostsListIndexItem';
+import {GET_POSTS} from "../../app/queries";
+import PostAdd from './PostAdd';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -65,7 +64,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const CustomizedSearch = ({fn, setSearch, search, setUsers}) => {
+const CustomizedSearch = ({fn, setSearch, search, setPosts}) => {
 // let search =console.log('CustomizedSearch')
   const [searchString, setSearchString] = React.useState(search)
 
@@ -79,7 +78,7 @@ const CustomizedSearch = ({fn, setSearch, search, setUsers}) => {
   const sendSearchData = (e) => {
 //console.log('sendSearchData')
     e.preventDefault()
-    setUsers([])
+    setPosts([])
     fn( {
       variables: {
         search: searchString,
@@ -116,37 +115,37 @@ const CustomizedSearch = ({fn, setSearch, search, setUsers}) => {
   )
 }
 
-const UsersListIndex = () => {
+const PostsListIndex = () => {
 
-//console.log('UsersListIndex')
+//console.log('PostsListIndex')
 
   const theme = useTheme();
-  const [title, setTitle] = React.useState('Users list')
+  const [title, setTitle] = React.useState('Posts list')
   const [openDialog, setOpenDialog] = React.useState(false)
   const [search,setSearch] = React.useState(null)
-  const [users,setUsers] = React.useState([])
+  const [posts,setPosts] = React.useState([])
   //const {data, loading, error, refetch} = useQuery(GET_USERS);
   const [
-    fetchFilteredUsers,
+    fetchFilteredPosts,
     {data, loading, error, refetch}
-  ] = useLazyQuery(GET_USERS)
+  ] = useLazyQuery(GET_POSTS)
 
   React.useEffect(() => {
-//console.log('UsersListIndex --> data useEffect')
+//console.log('PostsListIndex --> data useEffect')
     if(!data) return
-    setUsers(data.getUsers.users)
+    setPosts(data.getPosts.posts)
   },[data])
 
   //////////////////// TEST
   React.useEffect(() => {
-//console.log('UsersListIndex --> search useEffect')
-  fetchFilteredUsers({variables:{
+//console.log('PostsListIndex --> search useEffect')
+  fetchFilteredPosts({variables:{
     search,
     page:1,
     limit:10
   }}).then((res) => {
 //console.log('res', res)
-    setUsers(res.data.getUsers.users)
+    setPosts(res.data.getPosts.posts)
   })
 
     if(!search) return
@@ -165,10 +164,10 @@ const UsersListIndex = () => {
       <Box style={{padding:'0rem'}}>
          {/*<SearchAppBar 
           title={'Users list'} 
-          fn={fetchFilteredUsers} 
+          fn={fetchFilteredPosts} 
           setSearch={setSearch}
           search={search}
-          setUsers={setUsers}
+          setPosts={setPosts}
           refetch={refetch}
         /> */}
         <Box sx={{ flexGrow: 1 }} style={{paddingBottom:'0.5rem'}}>
@@ -193,23 +192,20 @@ const UsersListIndex = () => {
                 {title}
               </Typography>
             </Box>
-            <CustomizedSearch fn={fetchFilteredUsers} setSearch={setSearch} search={search} setUsers={setUsers} />
+            <CustomizedSearch fn={fetchFilteredPosts} setSearch={setSearch} search={search} setPosts={setPosts} />
           </Toolbar>
         </AppBar>
       </Box>
         <Grid container spacing={{ sm: 1, md: 1 }} >
-          {users && users.map((user, idx) => {
-            return <UsersListIndexItem fn={user} key={idx} title={user.username}/>
+          {posts && posts.map((post, idx) => {
+            return <PostsListIndexItem fn={post} key={idx} title={post.title}/>
           })}
-          {/* {filteredUser && filteredUser.getUsers.users.map((user, idx) => {
-            return <UsersListIndexItem fn={user} key={idx} title="Users"/>
-          })} */}
         </Grid>
         
       </Box>
-      <UserAdd onClick={setOpenDialog} active={openDialog} refetch={refetch} setUsers={setUsers}/>
+      <PostAdd onClick={setOpenDialog} active={openDialog} refetch={refetch} setPosts={setPosts}/>
     </React.Fragment>
   )
 }
 
-export default memo(UsersListIndex)
+export default memo(PostsListIndex)

@@ -3,7 +3,8 @@ import { Navigate, Outlet, Link, useParams } from "react-router-dom";
 
 // Pages imports
 import AdminLayout from "../../pages/backend/Layout/AdminLayout"
-// import MindMapListIndex from "../../components/MindMap/wrappers/MindMapListIndex";
+import MapsListIndex from "../../components/Maps/MapsListIndex";
+import PostsListIndex from "../../components/Posts/PostsListIndex";
 // //import MindMapList from "../../components/MindMap/_temp/MindMapList";
 // import MindMapListItem from "../../components/MindMap/wrappers/MindMapListItem";
 // import Profile from '../pages/backend/User/Profile'
@@ -14,7 +15,7 @@ import SignInSide from "../../pages/frontend/SigIn";
 import SignUp from "../../pages/frontend/SignUp";
 import Home from "../../pages/frontend/Home";
 import Blog from "../../pages/frontend/Blog"
-// import BlogListIndex from "../../components/Blog/wrappers/BlogListIndex";
+// 
 // import BlogListItem from "../../components/Blog/wrappers/BlogListItem"
 import UsersListIndex from '../../components/Users/UsersListIndex'
 
@@ -33,15 +34,14 @@ const routes = (isLoggedIn) => [
           //{ path: '/app/user/profile', element: <Profile /> },
         ],
       },
-      // https://stackoverflow.com/questions/62384395/protected-route-with-react-router-v6
-      // {
-      //   path: 'member',
-      //   element: <Outlet />,
-      //   children: [
-      //     { path: '/', element: <MemberGrid /> },
-      //     { path: '/add', element: <AddMember /> },
-      //   ],
-      // },
+      {
+        path: '/app/maps',
+        element: <Outlet />,
+        children: [
+          { index: true, element: <MapsListIndex /> },
+          //{ path: '/app/user/profile', element: <Profile /> },
+        ],
+      },
       {
         path: "/app/courses",
         element: <Courses />,
@@ -52,13 +52,22 @@ const routes = (isLoggedIn) => [
       },
       {
         path: "/app/blogs",
-        element: <Blog />,
+        element: <Outlet />,
         children: [
-          { index: true, element: <CoursesIndex /> },
-          { path: "/app/blogs/:id", element: <Course /> },
+          { index: true, element: <PostsListIndex /> },
+          //{ path: "/app/blogs/:id", element: <Course /> },
         ],
       },
       { path: "*", element: <NoMatch /> },
+      // https://stackoverflow.com/questions/62384395/protected-route-with-react-router-v6
+      // {
+      //   path: 'member',
+      //   element: <Outlet />,
+      //   children: [
+      //     { path: '/', element: <MemberGrid /> },
+      //     { path: '/add', element: <AddMember /> },
+      //   ],
+      // },
     ],
   },
   {

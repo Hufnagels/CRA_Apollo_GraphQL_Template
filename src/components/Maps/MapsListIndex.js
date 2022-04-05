@@ -24,10 +24,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 
 // Custom
-import UsersListIndexItem from './UsersListIndexItem';
-import SearchAppBar from './SearchAppBar';
-import {GET_USERS} from "../../app/queries";
-import UserAdd from './UserAdd';
+import MapsListIndexItem from './MapsListIndexItem';
+import {GET_MAPS} from "../../app/queries";
+import MapAdd from './MapAdd';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -65,7 +64,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const CustomizedSearch = ({fn, setSearch, search, setUsers}) => {
+const CustomizedSearch = ({fn, setSearch, search, setMaps}) => {
 // let search =console.log('CustomizedSearch')
   const [searchString, setSearchString] = React.useState(search)
 
@@ -79,7 +78,7 @@ const CustomizedSearch = ({fn, setSearch, search, setUsers}) => {
   const sendSearchData = (e) => {
 //console.log('sendSearchData')
     e.preventDefault()
-    setUsers([])
+    setMaps([])
     fn( {
       variables: {
         search: searchString,
@@ -116,37 +115,37 @@ const CustomizedSearch = ({fn, setSearch, search, setUsers}) => {
   )
 }
 
-const UsersListIndex = () => {
+const MapsListIndex = () => {
 
-//console.log('UsersListIndex')
+//console.log('MapsListIndex')
 
   const theme = useTheme();
-  const [title, setTitle] = React.useState('Users list')
+  const [title, setTitle] = React.useState('Maps list')
   const [openDialog, setOpenDialog] = React.useState(false)
   const [search,setSearch] = React.useState(null)
-  const [users,setUsers] = React.useState([])
-  //const {data, loading, error, refetch} = useQuery(GET_USERS);
+  const [maps,setMaps] = React.useState([])
+
   const [
-    fetchFilteredUsers,
+    fetchFilteredMaps,
     {data, loading, error, refetch}
-  ] = useLazyQuery(GET_USERS)
+  ] = useLazyQuery(GET_MAPS)
 
   React.useEffect(() => {
-//console.log('UsersListIndex --> data useEffect')
+//console.log('MapsListIndex --> data useEffect')
     if(!data) return
-    setUsers(data.getUsers.users)
+    setMaps(data.getMaps.maps)
   },[data])
 
   //////////////////// TEST
   React.useEffect(() => {
-//console.log('UsersListIndex --> search useEffect')
-  fetchFilteredUsers({variables:{
+//console.log('MapsListIndex --> search useEffect')
+  fetchFilteredMaps({variables:{
     search,
     page:1,
     limit:10
   }}).then((res) => {
 //console.log('res', res)
-    setUsers(res.data.getUsers.users)
+    setMaps(res.data.getMaps.maps)
   })
 
     if(!search) return
@@ -168,7 +167,7 @@ const UsersListIndex = () => {
           fn={fetchFilteredUsers} 
           setSearch={setSearch}
           search={search}
-          setUsers={setUsers}
+          setMaps={setMaps}
           refetch={refetch}
         /> */}
         <Box sx={{ flexGrow: 1 }} style={{paddingBottom:'0.5rem'}}>
@@ -193,23 +192,20 @@ const UsersListIndex = () => {
                 {title}
               </Typography>
             </Box>
-            <CustomizedSearch fn={fetchFilteredUsers} setSearch={setSearch} search={search} setUsers={setUsers} />
+            <CustomizedSearch fn={fetchFilteredMaps} setSearch={setSearch} search={search} setMaps={setMaps} />
           </Toolbar>
         </AppBar>
       </Box>
         <Grid container spacing={{ sm: 1, md: 1 }} >
-          {users && users.map((user, idx) => {
-            return <UsersListIndexItem fn={user} key={idx} title={user.username}/>
+          {maps && maps.map((map, idx) => {
+            return <MapsListIndexItem fn={map} key={idx} title={map.title}/>
           })}
-          {/* {filteredUser && filteredUser.getUsers.users.map((user, idx) => {
-            return <UsersListIndexItem fn={user} key={idx} title="Users"/>
-          })} */}
         </Grid>
         
       </Box>
-      <UserAdd onClick={setOpenDialog} active={openDialog} refetch={refetch} setUsers={setUsers}/>
+      <MapAdd onClick={setOpenDialog} active={openDialog} refetch={refetch} setMaps={setMaps}/>
     </React.Fragment>
   )
 }
 
-export default memo(UsersListIndex)
+export default memo(MapsListIndex)
