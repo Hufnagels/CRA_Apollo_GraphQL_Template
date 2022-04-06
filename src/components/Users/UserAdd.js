@@ -2,6 +2,7 @@ import React from 'react'
 import { useFormik, } from 'formik';
 import * as yup from 'yup';
 import _ from 'lodash';
+import { useSnackbar } from 'notistack';
 
 // Material
 import {
@@ -55,6 +56,8 @@ const validationSchema = yup.object({
 
 const UserAdd = ({onClick, active, refetch, setUsers}) => {
   
+  const { enqueueSnackbar } = useSnackbar();
+
   const [dateOfBirth, setDateOfBirth] = React.useState(new Date())
   const [open, setOpen] = React.useState(active);
 
@@ -76,9 +79,18 @@ const UserAdd = ({onClick, active, refetch, setUsers}) => {
       const newData = _.omit(values, 'passwordConfirmation')
       setOpen(false)
       onClick(false)
-      createUser({variables:{input:newData}}).then((res) => {
-        setUsers(prevState => [...prevState, res.data.createUser])
-        refetch();
+      createUser({variables:{input:newData}}).then((res, err) => {
+        console.log('createUser promise',res, error)
+        if (res.errors || res.data.createUser === null) {
+          const variant = 'error'
+          enqueueSnackbar(res.errors.message, { variant })
+        } else {
+          setUsers(prevState => [...prevState, res.data.createUser])
+          const variant = 'success'
+          enqueueSnackbar('Success', { variant })
+          refetch();
+        }
+        
       })
     },
   })

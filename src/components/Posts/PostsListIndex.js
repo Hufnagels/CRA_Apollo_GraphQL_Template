@@ -198,7 +198,7 @@ const PostsListIndex = () => {
       </Box>
         <Grid container spacing={{ sm: 1, md: 1 }} >
           {posts && posts.map((post, idx) => {
-            return <PostsListIndexItem fn={post} key={idx} title={post.title}/>
+            return <PostsListIndexItem post={post} key={idx} title={post.title}/>
           })}
         </Grid>
         

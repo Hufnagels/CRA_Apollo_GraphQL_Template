@@ -21,6 +21,28 @@ export const GET_USERS = gql`
   }
 `;
 
+export const GET_USER = gql`
+  query GetUser($id: ID!) {
+    getUser(_id: $id) {
+      _id
+      username
+      firstName
+      lastName
+      email
+      # ... on UserNotFoundError {
+      #   message
+      # }
+      # ... on User {
+      #   _id
+      #   username
+      #   firstName
+      #   lastName
+      #   email
+      # }
+    }
+  }
+`
+
 // MUTATIONS
 export const ADD_USER = gql`
   mutation CreateUser($input: UserInputAdd) {

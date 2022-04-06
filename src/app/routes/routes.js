@@ -18,6 +18,7 @@ import Blog from "../../pages/frontend/Blog"
 // 
 // import BlogListItem from "../../components/Blog/wrappers/BlogListItem"
 import UsersListIndex from '../../components/Users/UsersListIndex'
+import PostPreview from "../../components/Posts/PostPreview";
 
 const routes = (isLoggedIn) => [
   {
@@ -55,7 +56,7 @@ const routes = (isLoggedIn) => [
         element: <Outlet />,
         children: [
           { index: true, element: <PostsListIndex /> },
-          //{ path: "/app/blogs/:id", element: <Course /> },
+          { path: "/app/blogs/:id", element: <PostPreview /> },
         ],
       },
       { path: "*", element: <NoMatch /> },

@@ -10,9 +10,21 @@ export const GET_POSTS = gql`
         _id
         author
         title
+        subtitle
         description
         titleimage
       }
+    }
+  }
+`
+export const GET_POST = gql`
+  query GetPost($id: ID!) {
+    getPost(_id: $id) {
+      author
+      title
+      subtitle
+      description
+      titleimage
     }
   }
 `
@@ -23,6 +35,7 @@ export const ADD_POST = gql`
     createPost(input: $input) {
       author
       title
+      subtitle
       description
       titleimage
     }

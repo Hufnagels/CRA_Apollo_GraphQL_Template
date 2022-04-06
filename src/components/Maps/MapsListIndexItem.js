@@ -6,8 +6,10 @@ import {
   Grid,
   Card,
   CardHeader,
+  CardMedia,
   CardContent,
   IconButton,
+  Skeleton,
 } from '@mui/material'
 import { red } from '@mui/material/colors';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -28,6 +30,16 @@ const MapsListIndexItem = ({fn, title}) => {
           title={title}
           subheader="September 14, 2016"
         />
+        {fn.mapimage ? 
+              <CardMedia
+                component="img"
+                height="140"
+                image={fn.mapimage}
+                alt="green iguana"
+              /> 
+              :
+              <Skeleton variant="rectangular"  height={140} />
+            }
         <CardContent>
           <pre>{JSON.stringify(fn, null, 2)}</pre>
         </CardContent>

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link, useParams } from "react-router-dom";
 
 // Material
 import {
@@ -12,7 +13,7 @@ import {
 import { red } from '@mui/material/colors';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
-const UsersListIndexItem = ({fn, title}) => {
+const UsersListIndexItem = ({post, title}) => {
   return (
     <Grid item xs={12} sm={12} md={6} lg={4} xl={3}>
       <Card variant="outlined" >
@@ -29,7 +30,7 @@ const UsersListIndexItem = ({fn, title}) => {
           subheader="September 14, 2016"
         />
         <CardContent>
-          <pre>{JSON.stringify(fn, null, 2)}</pre>
+          <pre>{JSON.stringify(post, null, 2)}</pre>
         </CardContent>
       </Card>
     </Grid>

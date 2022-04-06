@@ -1,5 +1,6 @@
 import React from 'react'
-import { useFormik, } from 'formik';
+import { Formik, useFormik } from "formik";
+import { ContentState } from "draft-js";
 import * as yup from 'yup';
 import _ from 'lodash';
 
@@ -15,6 +16,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Grid,
   TextField,
   Slide,
 } from '@mui/material';
@@ -26,6 +28,7 @@ import {
   useMutation
 } from "@apollo/client";
 import { ADD_POST } from "../../app/queries";
+import { TextEditor } from "../Texteditor/editor";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} timeout={{enter: 5, exit: 5,}} {...props} />;
@@ -42,10 +45,14 @@ const validationSchema = yup.object({
     .min(2, 'Too Short!')
     .max(50, 'Too Long!')
     .required('Required'),
+  subtitle: yup
+    .string('Enter your subtitle')
+    .min(2, 'Too Short!')
+    .max(100, 'Too Long!'),
   description: yup
     .string('Enter your description'),
   titleimage : yup
-    .string('Enter your tiele imaage'),
+    .string('Enter your tiele image'),
 });
 
 const PostAdd = ({onClick, active, refetch, setPosts}) => {
@@ -60,6 +67,7 @@ const PostAdd = ({onClick, active, refetch, setPosts}) => {
     initialValues: {
       "author":'',
       "title":'',
+      "subtitle": '',
       "description":'',
       "titleimage":''
     },
@@ -143,22 +151,31 @@ console.log('values', values)
             ref={descriptionElementRef} 
             tabIndex={-1} 
           >
-
-          <TextField
+            <Grid 
+              container 
+              spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}
+              justifyContent="flex-start"
+              alignItems="flex-start"
+            >
+              
+              <Grid item xs={12} md={4} lg={4}>
+              <TextField
             autoFocus
             margin="dense"
             id="author"
             name="author"
             label="Author"
             type="text"
-            
+            fullWidth
             variant="standard"
             value={formik.values.author}
             onChange={formik.handleChange}
             error={formik.touched.author && Boolean(formik.errors.author)}
             helperText={formik.touched.author && formik.errors.author}
           />
-          <TextField
+              </Grid>
+              <Grid item xs={12} md={8} lg={8}>
+              <TextField
             autoFocus
             margin="dense"
             id="titleimage"
@@ -172,7 +189,9 @@ console.log('values', values)
             error={formik.touched.titleimage && Boolean(formik.errors.titleimage)}
             helperText={formik.touched.titleimage && formik.errors.titleimage}
           />
-          <TextField
+              </Grid>
+              <Grid item xs={12} md={6} lg={4}>
+              <TextField
             autoFocus
             margin="dense"
             id="title"
@@ -186,22 +205,34 @@ console.log('values', values)
             error={formik.touched.title && Boolean(formik.errors.title)}
             helperText={formik.touched.title && formik.errors.title}
           />
-          <TextField
+              </Grid>
+              <Grid item xs={12} md={6} lg={8}>
+              <TextField
             autoFocus
             margin="dense"
-            id="description"
-            name="description"
-            label="Desription"
+            id="subtitle"
+            name="subtitle"
+            label="Subitle"
             type="text"
             fullWidth
             variant="standard"
-            value={formik.values.description}
+            value={formik.values.subtitle}
             onChange={formik.handleChange}
-            error={formik.touched.description && Boolean(formik.errors.description)}
-            helperText={formik.touched.description && formik.errors.description}
+            error={formik.touched.subtitle && Boolean(formik.errors.subtitle)}
+            helperText={formik.touched.subtitle && formik.errors.subtitle}
           />
-          
-          {/* <MobileDatePicker
+              </Grid>
+              <Grid item xs={12} md={12} lg={12} sx={{paddingBottom: '2rem'}}>
+              <Typography variant="body2" component="div">formik values == {JSON.stringify(formik.values)}</Typography>
+              <TextEditor
+                setFieldValue={(val) => formik.setFieldValue("description", val)}
+                value={formik.values.description}
+                
+              />
+              </Grid>
+              <Grid item>
+              
+                {/* <MobileDatePicker
             label="Activation time"
             value={dateOfBirth}
             minDate={new Date()}
@@ -224,6 +255,14 @@ console.log('values', values)
                 {...params} 
               />}
           /> */}
+              </Grid>
+            </Grid>
+          
+          
+          
+          
+          
+          
           
           </div>
           

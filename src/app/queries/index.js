@@ -3,7 +3,7 @@ import {
 }  from './users/users.gql'
 
 import {
-  GET_POSTS, ADD_POST, 
+  GET_POSTS, GET_POST, ADD_POST, 
 }  from './posts/posts.gql'
 
 import {
@@ -12,6 +12,6 @@ import {
 
 export  {
   GET_USERS, ADD_USER, EDIT_USER, DELETE_USER,
-  GET_POSTS, ADD_POST, 
+  GET_POSTS, GET_POST, ADD_POST, 
   GET_MAPS,
 }
