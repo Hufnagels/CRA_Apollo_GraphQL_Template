@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect, memo } from "react";
-import { Link, NavLink } from "react-router-dom";
+import React, { useEffect, memo } from "react";
+import { NavLink } from "react-router-dom";
 
 // Material
 import {
@@ -14,11 +14,8 @@ import {
   Button,
   Tooltip,
   MenuItem,
-  Grid,
-  Paper,
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu';
-import CssBaseline from '@mui/material/CssBaseline';
 
 const pages = [
   {name: 'Users', link: '/app/users'},
@@ -70,7 +67,7 @@ const Header = () => {
             sx={{ mr: 2, display: { xs: 'none', md: 'flex' }, flexWrap: 'nowrap', 
               flexDirection: 'row', alignContent: 'flex-start', justifyContent: 'space-between', alignItems: 'center' }}
           >
-            <img src={window.location.origin + "/android-icon-48x48.png"} style={{margin:'0 10px'}} />
+            <img src={window.location.origin + "/android-icon-48x48.png"} style={{margin:'0 10px'}} alt=""/>
             GraphQL Demo
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
@@ -127,7 +124,7 @@ const Header = () => {
                   <Button
                     key={page.name}
                     onClick={handleCloseNavMenu}
-                    sx={{ my: 2, color: 'white', display: 'block', color:'#333' }}
+                    sx={{ my: 2, display: 'block', color:'#333' }}
                     variant={isActive ? 'outlined' : 'text'} 
                   >
                     {page.name}

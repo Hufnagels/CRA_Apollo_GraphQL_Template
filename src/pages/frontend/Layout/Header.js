@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect, memo } from "react";
-import { Link, NavLink } from "react-router-dom";
+import React, { useEffect, memo } from "react";
+import { NavLink } from "react-router-dom";
 
 // Material
 import {
@@ -10,15 +10,10 @@ import {
   Typography,
   Menu,
   Container,
-  Avatar,
   Button,
-  Tooltip,
-  MenuItem,
-  Grid,
-  Paper,
+
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu';
-import CssBaseline from '@mui/material/CssBaseline';
 
 const pages = [
   {name: 'Home', link: '/'}, 
@@ -35,14 +30,13 @@ const Header = () => {
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
 
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
@@ -63,7 +57,7 @@ const Header = () => {
             sx={{ mr: 2, display: { xs: 'none', md: 'flex' }, flexWrap: 'nowrap', 
               flexDirection: 'row', alignContent: 'flex-start', justifyContent: 'space-between', alignItems: 'center' }}
           >
-           <img src={window.location.origin + "/android-icon-48x48.png"} style={{margin:'0 10px'}} />
+           <img src={window.location.origin + "/android-icon-48x48.png"} style={{margin:'0 10px'}} alt=""/>
             Don't think twice!
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
@@ -120,7 +114,7 @@ const Header = () => {
                   <Button
                     key={page.name}
                     onClick={handleCloseNavMenu}
-                    sx={{ my: 2, color: 'white', display: 'block', color:'#333' }}
+                    sx={{ my: 2, display: 'block', color:'#333' }}
                     variant={isActive ? 'outlined' : 'text'} 
                   >
                     {page.name}
@@ -179,12 +173,3 @@ const Header = () => {
 };
 
 export default memo(Header);
-
-function convertToSlug(Text)
-{
-    return Text
-        .toLowerCase()
-        .replace(/ /g,'-')
-        .replace(/[^\w-]+/g,'')
-        ;
-}

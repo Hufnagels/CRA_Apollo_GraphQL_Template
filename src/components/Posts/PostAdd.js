@@ -3,6 +3,7 @@ import { Formik, useFormik } from "formik";
 import { ContentState } from "draft-js";
 import * as yup from 'yup';
 import _ from 'lodash';
+import { useSnackbar } from 'notistack';
 
 // Material
 import {
@@ -57,6 +58,8 @@ const validationSchema = yup.object({
 
 const PostAdd = ({onClick, active, refetch, setPosts}) => {
   
+  const { enqueueSnackbar } = useSnackbar();
+  
   const [dateOfBirth, setDateOfBirth] = React.useState(new Date())
   const [open, setOpen] = React.useState(active);
   const [scroll, setScroll] = React.useState('paper');
@@ -75,12 +78,19 @@ const PostAdd = ({onClick, active, refetch, setPosts}) => {
     onSubmit: (values) => {
 console.log('values', values)
       //const newData = _.omit(values, 'passwordConfirmation')
-      setOpen(false)
-      onClick(false)
+      
       createPost({variables:{input:values}}).then((res) => {
         setPosts(prevState => [...prevState, res.data.createPost])
+        const variant = 'success'
+        enqueueSnackbar('User created successfully', { variant })
+        setOpen(false)
+        onClick(false)
         formik.resetForm()
         refetch();
+      }).catch(err => {
+//console.log('createUser catch', err)
+        const variant = 'error'
+        enqueueSnackbar(err.message, { variant })
       })
     },
   })

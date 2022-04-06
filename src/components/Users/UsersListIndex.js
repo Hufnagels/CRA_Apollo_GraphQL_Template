@@ -145,7 +145,7 @@ const UsersListIndex = () => {
     page:1,
     limit:10
   }}).then((res) => {
-//console.log('res', res)
+console.log('res', res)
     setUsers(res.data.getUsers.users)
   })
 

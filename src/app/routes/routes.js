@@ -19,6 +19,7 @@ import Blog from "../../pages/frontend/Blog"
 // import BlogListItem from "../../components/Blog/wrappers/BlogListItem"
 import UsersListIndex from '../../components/Users/UsersListIndex'
 import PostPreview from "../../components/Posts/PostPreview";
+import UsersListItem from "../../components/Users/UsersListItem";
 
 const routes = (isLoggedIn) => [
   {
@@ -32,7 +33,7 @@ const routes = (isLoggedIn) => [
         element: <Outlet />,
         children: [
           { index: true, element: <UsersListIndex /> },
-          //{ path: '/app/user/profile', element: <Profile /> },
+          { path: '/app/users/:id', element: <UsersListItem /> },
         ],
       },
       {

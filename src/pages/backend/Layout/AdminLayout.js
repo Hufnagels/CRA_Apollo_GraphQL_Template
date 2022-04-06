@@ -3,7 +3,6 @@ import { SnackbarProvider } from 'notistack';
 
 import Header from './Header'
 import Main from './Main'
-import StickyFooter from './Footer'
 
 const AdminLayout = () => {
   return (
@@ -11,7 +10,6 @@ const AdminLayout = () => {
       <SnackbarProvider maxSnack={5}>
         <Header />
         <Main />
-       {/*  <StickyFooter /> */}
       </SnackbarProvider>
     </React.Fragment>
   )

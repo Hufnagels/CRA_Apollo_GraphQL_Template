@@ -1,5 +1,5 @@
 import {
-  GET_USERS, ADD_USER, EDIT_USER, DELETE_USER,
+  GET_USERS, GET_USER, ADD_USER, EDIT_USER, DELETE_USER,
 }  from './users/users.gql'
 
 import {
@@ -11,7 +11,7 @@ import {
 }  from './maps/maps.gql'
 
 export  {
-  GET_USERS, ADD_USER, EDIT_USER, DELETE_USER,
+  GET_USERS, GET_USER, ADD_USER, EDIT_USER, DELETE_USER,
   GET_POSTS, GET_POST, ADD_POST, 
   GET_MAPS,
 }

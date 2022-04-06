@@ -10,7 +10,7 @@
     "Apollo"
   ],
   "author": "Hufnagels",
-  "licence": "MIT",
+  "license": "MIT",
   "dependencies": {
     "@apollo/client": "^3.5.10",
     "@emotion/react": "^11.8.2",
