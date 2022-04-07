@@ -20,7 +20,7 @@ import MobileDatePicker from '@mui/lab/MobileDatePicker';
 import {
   useMutation
 } from "@apollo/client";
-import { ADD_USER } from "../../app/queries";
+import { CREATE_USER } from "../../app/queries";
 
 
 const validationSchema = yup.object({
@@ -61,7 +61,7 @@ const UserAdd = ({onClick, active, refetch, setUsers}) => {
   const [dateOfBirth, setDateOfBirth] = React.useState(new Date())
   const [open, setOpen] = React.useState(active);
 
-  const [createUser, { data, loading, error }] = useMutation(ADD_USER);
+  const [createUser, { data, loading, error }] = useMutation(CREATE_USER);
 
   const formik = useFormik({
     initialValues: {
@@ -77,18 +77,16 @@ const UserAdd = ({onClick, active, refetch, setUsers}) => {
     onSubmit: (values) => {
       values.date_of_birth = dateOfBirth.toISOString()
       const newData = _.omit(values, 'passwordConfirmation')
-      
       createUser({variables:{input:newData}}).then((res) => {
-//console.log('createUser promise', res)
+console.log('createUser promise', res)
         setUsers(prevState => [...prevState, res.data.createUser])
         const variant = 'success'
         enqueueSnackbar('User created successfully', { variant })
-        
         onClick(false)
         setOpen(false)
         refetch();
       }).catch(err => {
-//console.log('createUser catch', err)
+console.log('createUser catch', err)
         const variant = 'error'
         enqueueSnackbar(err.message, { variant })
       })
@@ -112,6 +110,9 @@ const UserAdd = ({onClick, active, refetch, setUsers}) => {
 
   return (
     <div>
+      {error && <pre>
+        {JSON.stringify(error, null, 2)}
+        </pre>}
       <Dialog
         keepMounted
         open={open}

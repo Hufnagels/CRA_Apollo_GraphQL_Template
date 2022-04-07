@@ -28,7 +28,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import {
   useMutation
 } from "@apollo/client";
-import { ADD_POST } from "../../app/queries";
+import { CREATE_POST } from "../../app/queries";
 import { TextEditor } from "../Texteditor/editor";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -64,7 +64,7 @@ const PostAdd = ({onClick, active, refetch, setPosts}) => {
   const [open, setOpen] = React.useState(active);
   const [scroll, setScroll] = React.useState('paper');
 
-  const [createPost, { data, loading, error }] = useMutation(ADD_POST);
+  const [createPost, { data, loading, error }] = useMutation(CREATE_POST);
 
   const formik = useFormik({
     initialValues: {

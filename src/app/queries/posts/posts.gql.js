@@ -30,8 +30,8 @@ export const GET_POST = gql`
 `
 
 // MUTATIONS
-export const ADD_POST = gql`
-  mutation CreatePost($input: PostInput) {
+export const CREATE_POST = gql`
+  mutation CreatePost($input: PostInputCreate) {
     createPost(input: $input) {
       author
       title

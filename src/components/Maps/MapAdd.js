@@ -19,7 +19,7 @@ import MobileDatePicker from '@mui/lab/MobileDatePicker';
 import {
   useMutation
 } from "@apollo/client";
-import { ADD_USER } from "../../app/queries";
+import { CREATE_USER } from "../../app/queries";
 
 
 const validationSchema = yup.object({
@@ -58,7 +58,7 @@ const MapAdd = ({onClick, active, refetch, setUsers}) => {
   const [dateOfBirth, setDateOfBirth] = React.useState(new Date())
   const [open, setOpen] = React.useState(active);
 
-  const [createUser, { data, loading, error }] = useMutation(ADD_USER);
+  const [createUser, { data, loading, error }] = useMutation(CREATE_USER);
 
   const formik = useFormik({
     initialValues: {

@@ -44,20 +44,23 @@ export const GET_USER = gql`
 `
 
 // MUTATIONS
-export const ADD_USER = gql`
-  mutation CreateUser($input: UserInputAdd) {
+export const CREATE_USER = gql`
+  mutation CreateUser($input: UserInputCreate!) {
     createUser(input: $input) {
-      username
-      firstName
-      lastName
-      date_of_birth
-      email
-      password
+      user {
+        _id
+        username
+        email
+      }
+      userErrors {
+        message
+        path
+      }
     }
   }
 `;
 
-export const EDIT_USER = gql`
+export const UPDATE_USER = gql`
   mutation($id: String, $firstName: String, $firstName: String, $email: String, $date_of_birth: String) {
     updateUserInfo (id: $id, firstName: $firstName, lastName: $lastName, email: $email, date_of_birth: $date_of_birth)
   }

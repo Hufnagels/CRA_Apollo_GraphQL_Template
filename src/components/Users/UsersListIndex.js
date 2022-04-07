@@ -1,4 +1,5 @@
 import React, { memo } from 'react'
+import PropTypes from 'prop-types';
 import {
   useQuery,
   useLazyQuery,
@@ -15,6 +16,13 @@ import {
   Typography,
   Button,
   IconButton,
+  Pagination,
+  Stack,
+  useScrollTrigger,
+  FormControl,
+  Select,
+  InputLabel,
+  MenuItem
 } from '@mui/material'
 
 import { useTheme, styled, alpha } from '@mui/material/styles';
@@ -116,7 +124,32 @@ const CustomizedSearch = ({fn, setSearch, search, setUsers}) => {
   )
 }
 
-const UsersListIndex = () => {
+const ElevationScroll = (props) => {
+  const { children, window } = props;
+  // Note that you normally won't need to set the window ref as useScrollTrigger
+  // will default to window.
+  // This is only being set here because the demo is in an iframe.
+  const trigger = useScrollTrigger({
+    disableHysteresis: true,
+    threshold: 0,
+    target: window ? window() : undefined,
+  });
+
+  return React.cloneElement(children, {
+    elevation: trigger ? 4 : 0,
+  });
+}
+
+ElevationScroll.propTypes = {
+  children: PropTypes.element.isRequired,
+  /**
+   * Injected by the documentation to work in an iframe.
+   * You won't need it on your project.
+   */
+  window: PropTypes.func,
+};
+
+const UsersListIndex = (props) => {
 
 //console.log('UsersListIndex')
 
@@ -124,7 +157,14 @@ const UsersListIndex = () => {
   const [title, setTitle] = React.useState('Users list')
   const [openDialog, setOpenDialog] = React.useState(false)
   const [search,setSearch] = React.useState(null)
+
   const [users,setUsers] = React.useState([])
+  const [page, setPage] = React.useState(1);
+  const [totalpage, setTotalPage] = React.useState(1)
+  const handlePageChange = (event, value) => {
+    setPage(value);
+  };
+  const [perpage, setPerpage] = React.useState(10)
   //const {data, loading, error, refetch} = useQuery(GET_USERS);
   const [
     fetchFilteredUsers,
@@ -135,24 +175,26 @@ const UsersListIndex = () => {
 //console.log('UsersListIndex --> data useEffect')
     if(!data) return
     setUsers(data.getUsers.users)
+    setTotalPage(data.getUsers.totalPages)
+    //console.log('UsersListIndex --> data useEffect', data)
   },[data])
 
   //////////////////// TEST
   React.useEffect(() => {
 //console.log('UsersListIndex --> search useEffect')
+    if( page > perpage ) setPage(perpage)
   fetchFilteredUsers({variables:{
     search,
-    page:1,
-    limit:10
+    page:page,
+    limit:perpage
   }}).then((res) => {
-console.log('res', res)
+    //console.log('res', res)
     setUsers(res.data.getUsers.users)
   })
-
     if(!search) return
 //console.log('search added', search)
 //refetch()
-  },[search])
+  },[search, page, perpage])
   ////////////////////
 
   
@@ -163,40 +205,51 @@ console.log('res', res)
   return (
     <React.Fragment>
       <Box style={{padding:'0rem'}}>
-         {/*<SearchAppBar 
-          title={'Users list'} 
-          fn={fetchFilteredUsers} 
-          setSearch={setSearch}
-          search={search}
-          setUsers={setUsers}
-          refetch={refetch}
-        /> */}
+
         <Box sx={{ flexGrow: 1 }} style={{paddingBottom:'0.5rem'}}>
-        <AppBar position="static" style={{backgroundColor: theme.palette.custom.dark}}>
-          <Toolbar disableGutters variant="dense">
-            <Box sx={{ m:1, display: { xs: 'flex', md: 'block' } }}>
-              <Button 
-                variant="contained" 
-                color="primary" 
-                endIcon={<AddIcon />}
-                onClick={ (e) => { setOpenDialog(true) } }
-              >Add</Button>
-            </Box>
-            <Box sx={{m:1, flexGrow: 1}} >
-              <Typography
-                variant="h6"
-                noWrap
-                component="div"
-                color="custom.light"
-                sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-              >
-                {title}
-              </Typography>
-            </Box>
-            <CustomizedSearch fn={fetchFilteredUsers} setSearch={setSearch} search={search} setUsers={setUsers} />
-          </Toolbar>
-        </AppBar>
-      </Box>
+          <Toolbar />
+          <ElevationScroll {...props}>
+            <AppBar position="static" style={{backgroundColor: theme.palette.custom.dark}}>
+              <Toolbar disableGutters variant="dense">
+                <Box sx={{ m:1, display: { xs: 'flex', md: 'block' } }}>
+                  <Button 
+                    variant="contained" 
+                    color="primary" 
+                    endIcon={<AddIcon />}
+                    onClick={ (e) => { setOpenDialog(true) } }
+                  >Add</Button>
+                </Box>
+                <Box sx={{m:1, flexGrow: 1}} >
+                  <Typography
+                    variant="h6"
+                    noWrap
+                    component="div"
+                    color="custom.light"
+                    sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+                  >
+                    {title}
+                  </Typography>
+                </Box>
+                <Pagination count={totalpage} page={page} onChange={handlePageChange} color="custom"/>
+                <FormControl sx={{ m: 1, minWidth: 80, color: theme.palette.custom.light}} variant="standard">
+                  <InputLabel id="demo-simple-select-autowidth-label">Age</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-autowidth-label"
+                    id="demo-simple-select-autowidth"
+                    value={perpage}
+                    onChange={(event) => setPerpage(event.target.value)}
+                    autoWidth
+                    label="perpage"
+                    size="small"
+                  >
+                    {[10,20,50,100].map((v) => <MenuItem value={v} color="custom.light">{v}</MenuItem>)}
+                  </Select>
+                </FormControl>
+                <CustomizedSearch fn={fetchFilteredUsers} setSearch={setSearch} search={search} setUsers={setUsers} />
+              </Toolbar>
+            </AppBar>
+          </ElevationScroll>
+        </Box>
         <Grid container spacing={{ sm: 1, md: 1 }} >
           {users && users.map((user, idx) => {
             return <UsersListIndexItem fn={user} key={idx} title={user.username}/>
@@ -205,7 +258,12 @@ console.log('res', res)
             return <UsersListIndexItem fn={user} key={idx} title="Users"/>
           })} */}
         </Grid>
-        
+        <Box>
+        <Stack spacing={2}>
+      <Typography>Page: {page}</Typography>
+      <Pagination count={totalpage} page={page} onChange={handlePageChange} />
+    </Stack>
+        </Box>
       </Box>
       <UserAdd onClick={setOpenDialog} active={openDialog} refetch={refetch} setUsers={setUsers}/>
     </React.Fragment>
