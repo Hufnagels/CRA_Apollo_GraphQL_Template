@@ -3,8 +3,8 @@ import {
 } from "@apollo/client";
 
 export const GET_MAPS = gql`
-  query GetMaps($search: String) {
-    getMaps(search: $search) {
+  query GetMaps($search: String, $page: Int, $limit: Int) {
+    getMaps(search: $search, page: $page, limit: $limit) {
       maps {
         _id
         title
@@ -17,6 +17,8 @@ export const GET_MAPS = gql`
           updated
         }
       }
+      currentPage
+      totalPages
     }
   }
 `;

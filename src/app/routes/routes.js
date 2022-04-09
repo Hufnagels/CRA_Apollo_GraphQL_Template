@@ -5,7 +5,7 @@ import { Navigate, Outlet, Link, useParams } from "react-router-dom";
 import AdminLayout from "../../pages/backend/Layout/AdminLayout"
 import MapsListIndex from "../../components/Maps/MapsListIndex";
 import PostsListIndex from "../../components/Posts/PostsListIndex";
-// //import MindMapList from "../../components/MindMap/_temp/MindMapList";
+import MindmapsListIndex from "../../components/Mindmaps/MindmapsListIndex";
 // import MindMapListItem from "../../components/MindMap/wrappers/MindMapListItem";
 // import Profile from '../pages/backend/User/Profile'
 
@@ -41,6 +41,14 @@ const routes = (isLoggedIn) => [
         element: <Outlet />,
         children: [
           { index: true, element: <MapsListIndex /> },
+          //{ path: '/app/user/profile', element: <Profile /> },
+        ],
+      },
+      {
+        path: '/app/mindmaps',
+        element: <Outlet />,
+        children: [
+          { index: true, element: <MindmapsListIndex /> },
           //{ path: '/app/user/profile', element: <Profile /> },
         ],
       },

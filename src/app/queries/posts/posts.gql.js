@@ -4,8 +4,8 @@ import {
 
 // QUERIES
 export const GET_POSTS = gql`
-  query GetPosts {
-    getPosts {
+  query GetPosts($search: String, $page: Int, $limit: Int) {
+    getPosts(search: $search, page: $page, limit: $limit) {
       posts {
         _id
         author
@@ -14,6 +14,8 @@ export const GET_POSTS = gql`
         description
         titleimage
       }
+      currentPage
+      totalPages
     }
   }
 `

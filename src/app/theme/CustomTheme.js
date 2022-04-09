@@ -36,7 +36,12 @@ const CustomTheme = createTheme({
 
         },
       }
-    }
+    },
+    MuiAppBar: {
+      defaultProps: {
+        enableColorOnDark: true,
+      },
+    },
   }
 });
 

@@ -47,7 +47,7 @@ const Header = () => {
 
   return (
    <React.Fragment>
-     <AppBar position="static" >
+     <AppBar position="static" enableColorOnDark >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -68,7 +68,7 @@ const Header = () => {
                     key={page.name}
                     onClick={handleCloseNavMenu}
                     sx={{ my: 2, color: 'white', display: 'block', }}
-                    variant={isActive ? 'outlined' : 'text'} 
+                    variant={isActive ? 'contained' : 'text'} 
                   >
                     {page.name}
                   </Button>

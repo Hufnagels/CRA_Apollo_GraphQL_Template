@@ -1,24 +1,32 @@
-import * as React from 'react';
-
-// Material is
-import { useTheme, styled, alpha } from '@mui/material/styles';
-import { grey } from '@mui/material/colors';
+import React, { memo } from 'react'
 import {
-  AppBar,
+  useQuery,
+  useLazyQuery,
+} from "@apollo/client";
+
+// Material
+import {
   Box,
+  Grid,
+  CircularProgress,
+  AppBar,
   Toolbar,
   InputBase,
   Typography,
-  Grid,
   Button,
   IconButton,
 } from '@mui/material'
-import MenuIcon from '@mui/icons-material/Menu';
+
+import { useTheme, styled, alpha } from '@mui/material/styles';
+import { grey } from '@mui/material/colors';
+
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 
-import UserAdd from './UserAdd';
-
+// Custom
+import MindmapsListIndexItem from './MindmapsListIndexItem';
+import {GET_MAPS} from "../../app/queries";
+import MindmapAdd from './MindmapAdd';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -56,8 +64,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const CustomizedSearch = ({fn, setSearch, search, setUsers}) => {
-console.log('CustomizedSearch')
+const CustomizedSearch = ({fn, setSearch, search, setMaps}) => {
+// let search =console.log('CustomizedSearch')
   const [searchString, setSearchString] = React.useState(search)
 
   const searchFieldUpdate = (e) => {
@@ -68,9 +76,9 @@ console.log('CustomizedSearch')
   }
 
   const sendSearchData = (e) => {
-  console.log('sendSearchData')
+//console.log('sendSearchData')
     e.preventDefault()
-    setUsers([])
+    setMaps([])
     fn( {
       variables: {
         search: searchString,
@@ -107,14 +115,62 @@ console.log('CustomizedSearch')
   )
 }
 
-export default function SearchAppBar({title, fn, setSearch, search, setUsers, refetch}) {
-console.log('SearchAppBar')
-  const theme = useTheme();
-  const [openDialog, setOpenDialog] = React.useState(false)
+const MindmapsListIndex = () => {
 
+//console.log('MindmapsListIndex')
+
+  const theme = useTheme();
+  const [title, setTitle] = React.useState('Mindmaps list')
+  const [openDialog, setOpenDialog] = React.useState(false)
+  const [search,setSearch] = React.useState(null)
+  const [maps,setMaps] = React.useState([])
+
+  const [
+    fetchFilteredMaps,
+    {data, loading, error, refetch}
+  ] = useLazyQuery(GET_MAPS)
+
+  React.useEffect(() => {
+//console.log('MindmapsListIndex --> data useEffect')
+    if(!data) return
+    setMaps(data.getMaps.maps)
+  },[data])
+
+  //////////////////// TEST
+  React.useEffect(() => {
+//console.log('MindmapsListIndex --> search useEffect')
+  fetchFilteredMaps({variables:{
+    search,
+    page:1,
+    limit:10
+  }}).then((res) => {
+//console.log('res', res)
+    setMaps(res.data.getMaps.maps)
+  })
+
+    if(!search) return
+//console.log('search added', search)
+//refetch()
+  },[search])
+  ////////////////////
+
+  
+
+  if (loading) return <CircularProgress color="secondary" />
+//  if (error) return `Error! ${error}`
+//if(filteredUser) console.log(filteredUser.getUsers)
   return (
     <React.Fragment>
-      <Box sx={{ flexGrow: 1 }} style={{paddingBottom:'0.5rem'}}>
+      <Box style={{padding:'0rem'}}>
+         {/*<SearchAppBar 
+          title={'Users list'} 
+          fn={fetchFilteredUsers} 
+          setSearch={setSearch}
+          search={search}
+          setMaps={setMaps}
+          refetch={refetch}
+        /> */}
+        <Box sx={{ flexGrow: 1 }} style={{paddingBottom:'0.5rem'}}>
         <AppBar position="static" style={{backgroundColor: theme.palette.custom.dark}}>
           <Toolbar disableGutters variant="dense">
             <Box sx={{ m:1, display: { xs: 'flex', md: 'block' } }}>
@@ -136,12 +192,20 @@ console.log('SearchAppBar')
                 {title}
               </Typography>
             </Box>
-            <CustomizedSearch fn={fn} setSearch={setSearch} search={search} setUsers={setUsers} />
+            <CustomizedSearch fn={fetchFilteredMaps} setSearch={setSearch} search={search} setMaps={setMaps} />
           </Toolbar>
         </AppBar>
       </Box>
-      <UserAdd onClick={setOpenDialog} active={openDialog} /* refetch={refetch} *//>
+        <Grid container spacing={{ sm: 1, md: 1 }} >
+          {maps && maps.map((map, idx) => {
+            return <MindmapsListIndexItem fn={map} key={idx} title={map.title}/>
+          })}
+        </Grid>
+        
+      </Box>
+      <MindmapAdd onClick={setOpenDialog} active={openDialog} refetch={refetch} setMaps={setMaps}/>
     </React.Fragment>
-    
-  );
+  )
 }
+
+export default memo(MindmapsListIndex)

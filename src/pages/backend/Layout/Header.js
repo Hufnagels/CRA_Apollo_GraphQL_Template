@@ -21,6 +21,7 @@ const pages = [
   {name: 'Users', link: '/app/users'},
   {name: 'Courses', link: '/app/courses'},
   {name: 'Maps', link: '/app/maps'},
+  {name: 'MindMaps', link: '/app/mindmaps'},
   {name: 'Blogs', link: '/app/blogs'},
   {name: 'Home', link: '/'},
 ];
@@ -57,7 +58,7 @@ const Header = () => {
 
   return (
    <React.Fragment>
-     <AppBar position="static" >
+     <AppBar position="static" enableColorOnDark >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -65,7 +66,9 @@ const Header = () => {
             noWrap
             component="div"
             sx={{ mr: 2, display: { xs: 'none', md: 'flex' }, flexWrap: 'nowrap', 
-              flexDirection: 'row', alignContent: 'flex-start', justifyContent: 'space-between', alignItems: 'center' }}
+              flexDirection: 'row', 
+              alignContent: 'flex-start', justifyContent: 'space-between', alignItems: 'center' 
+            }}
           >
             <img src={window.location.origin + "/android-icon-48x48.png"} style={{margin:'0 10px'}} alt=""/>
             GraphQL Demo
@@ -78,7 +81,7 @@ const Header = () => {
                     key={page.name}
                     onClick={handleCloseNavMenu}
                     sx={{ my: 2, color: 'white', display: 'block' }}
-                    variant={isActive ? 'outlined' : 'text'} 
+                    variant={isActive ? 'contained' : 'text'} 
                   >
                     {page.name}
                   </Button>
