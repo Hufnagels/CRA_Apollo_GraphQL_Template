@@ -11,8 +11,7 @@ import routes from './app/routes/routes'
 // Material
 
 // Custom
-import ResponsiveAppBar from './Layout/AppBar';
-import UsersListIndex from './components/Users/UsersListIndex';
+
 
 const App = () => {
   //const { isLoggedIn } =  useSelector((state) => state.user);
@@ -27,8 +26,6 @@ console.log('App');
  
   return (
     <React.Fragment>
-      {/* <ResponsiveAppBar /> 
-      {loading && <UsersListIndex />} */}
       {page}
     </React.Fragment>
   );

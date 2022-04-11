@@ -13,6 +13,7 @@
 
 # misc
 _backup
+_backup/
 .DS_Store
 .env
 .env.development.local

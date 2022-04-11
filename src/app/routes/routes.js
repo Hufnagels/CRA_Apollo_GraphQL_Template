@@ -1,25 +1,29 @@
 import React from "react";
 import { Navigate, Outlet, Link, useParams } from "react-router-dom";
 
-// Pages imports
+//Pages imports
+///////ADMIN SECTION
 import AdminLayout from "../../pages/backend/Layout/AdminLayout"
-import MapsListIndex from "../../components/Maps/MapsListIndex";
-import PostsListIndex from "../../components/Posts/PostsListIndex";
-import MindmapsListIndex from "../../components/Mindmaps/MindmapsListIndex";
-// import MindMapListItem from "../../components/MindMap/wrappers/MindMapListItem";
+//MAPS
+import MapsListIndex from "../../components/Maps/ListIndex";
+//MINDMAPS
+import MindmapsListIndex from "../../components/Mindmaps/ListIndex";
+import MindmapListItem from "../../components/Mindmaps/ListItem";
+//POSTS
+import PostsListIndex from "../../components/Posts/ListIndex";
+import PostPreview from "../../components/Posts/Preview";
+import UpdatePost from "../../components/Posts/ListItem";
+//USERS
+import UsersListIndex from '../../components/Users/ListIndex'
+import UsersListItem from "../../components/Users/ListItem";
 // import Profile from '../pages/backend/User/Profile'
 
-
+///////ADMIN SECTION
 import MainLayout from "../../pages/frontend/Layout/MainLayout";
-import SignInSide from "../../pages/frontend/SigIn";
-import SignUp from "../../pages/frontend/SignUp";
 import Home from "../../pages/frontend/Home";
 import Blog from "../../pages/frontend/Blog"
-// 
-// import BlogListItem from "../../components/Blog/wrappers/BlogListItem"
-import UsersListIndex from '../../components/Users/UsersListIndex'
-import PostPreview from "../../components/Posts/PostPreview";
-import UsersListItem from "../../components/Users/UsersListItem";
+import SignInSide from "../../pages/frontend/SigIn";
+import SignUp from "../../pages/frontend/SignUp";
 
 const routes = (isLoggedIn) => [
   {
@@ -29,11 +33,11 @@ const routes = (isLoggedIn) => [
       { index: true, element: <Dashboard /> },
       //{ path: '/', element: <Navigate to="/app/dashboard" /> },
       {
-        path: '/app/users',
-        element: <Outlet />,
+        path: "/app/courses",
+        element: <Courses />,
         children: [
-          { index: true, element: <UsersListIndex /> },
-          { path: '/app/users/:id', element: <UsersListItem /> },
+          { index: true, element: <CoursesIndex /> },
+          { path: "/app/courses/:id", element: <Course /> },
         ],
       },
       {
@@ -49,15 +53,7 @@ const routes = (isLoggedIn) => [
         element: <Outlet />,
         children: [
           { index: true, element: <MindmapsListIndex /> },
-          //{ path: '/app/user/profile', element: <Profile /> },
-        ],
-      },
-      {
-        path: "/app/courses",
-        element: <Courses />,
-        children: [
-          { index: true, element: <CoursesIndex /> },
-          { path: "/app/courses/:id", element: <Course /> },
+          { path: '/app/mindmaps/:id', element: <MindmapListItem /> },
         ],
       },
       {
@@ -65,7 +61,16 @@ const routes = (isLoggedIn) => [
         element: <Outlet />,
         children: [
           { index: true, element: <PostsListIndex /> },
-          { path: "/app/blogs/:id", element: <PostPreview /> },
+          { path: "/app/blogs/:id", element: <UpdatePost /> },
+          { path: "/app/blogs/:id/preview", element: <PostPreview /> },
+        ],
+      },
+      {
+        path: '/app/users',
+        element: <Outlet />,
+        children: [
+          { index: true, element: <UsersListIndex /> },
+          { path: '/app/users/:id', element: <UsersListItem /> },
         ],
       },
       { path: "*", element: <NoMatch /> },
@@ -86,11 +91,12 @@ const routes = (isLoggedIn) => [
     children: [
       { path: 'signin', element: <SignInSide /> },
       { path: 'signup', element: <SignUp /> },
-      { path: 'blog', element: <Outlet />,
+      {
+        path: 'blog', element: <Outlet />,
         children: [
           { index: true, element: <BlogListIndex /> },
           { path: "/blog/:id", element: <BlogListItem /> },
-        ], 
+        ],
       },
       { path: '/', element: <Home /> }, //<Navigate to="/login" /> },
       { path: "*", element: <NoMatch /> },
@@ -100,7 +106,7 @@ const routes = (isLoggedIn) => [
 
 export default routes
 
-function Dashboard(){
+function Dashboard() {
   return (
     <div>Dashboard</div>
   )

@@ -19,11 +19,11 @@ import {
 // Custom
 import {GET_POST} from "../../app/queries";
 
-function PostPreview(props) {
+const Preview = (props) => {
   let { id } = useParams('id');
   //const { post } = props;
   const [post,setPost] = React.useState([])
-console.log('PostPreview props', props, id);
+console.log('Preview props', props, id);
 
   const {data, loading, error, refetch} = useQuery(GET_POST, {
     variables:{id:id}
@@ -94,7 +94,7 @@ console.log('data', data)
   );
 }
 
-/* PostPreview.propTypes = {
+/* Preview.propTypes = {
   post: PropTypes.shape({
     description: PropTypes.string.isRequired,
     //titleimage: PropTypes.string.isRequired,
@@ -105,4 +105,4 @@ console.log('data', data)
   }).isRequired,
 }; */
 
-export default PostPreview;
+export default Preview;

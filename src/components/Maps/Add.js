@@ -53,7 +53,7 @@ const validationSchema = yup.object({
     .oneOf([yup.ref('password'), null], 'Passwords must match')
 });
 
-const MapAdd = ({onClick, active, refetch, setUsers}) => {
+const Add = ({onClick, active, refetch, setUsers}) => {
   
   const [dateOfBirth, setDateOfBirth] = React.useState(new Date())
   const [open, setOpen] = React.useState(active);
@@ -234,4 +234,4 @@ const MapAdd = ({onClick, active, refetch, setUsers}) => {
   )
 }
 
-export default MapAdd
+export default Add
