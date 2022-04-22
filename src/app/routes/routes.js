@@ -14,7 +14,7 @@ import PostsListIndex from "../../components/Posts/ListIndex";
 import PostPreview from "../../components/Posts/Preview";
 import UpdatePost from "../../components/Posts/ListItem";
 //USERS
-import UsersListIndex from '../../components/Users/ListIndex'
+import UsersListIndex from '../../components/Users/ListIndex2'
 import UsersListItem from "../../components/Users/ListItem";
 // import Profile from '../pages/backend/User/Profile'
 
@@ -24,6 +24,8 @@ import Home from "../../pages/frontend/Home";
 import Blog from "../../pages/frontend/Blog"
 import SignInSide from "../../pages/frontend/SigIn";
 import SignUp from "../../pages/frontend/SignUp";
+
+import Logout from "../../pages/frontend/Layout/Logout";
 
 const routes = (isLoggedIn) => [
   {
@@ -99,6 +101,8 @@ const routes = (isLoggedIn) => [
         ],
       },
       { path: '/', element: <Home /> }, //<Navigate to="/login" /> },
+      { path: '/logout', element: <Logout /> }, //<Navigate to="/login" /> },
+      
       { path: "*", element: <NoMatch /> },
     ],
   },

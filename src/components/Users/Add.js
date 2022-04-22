@@ -24,11 +24,6 @@ import { CREATE_USER } from "../../app/queries";
 
 
 const validationSchema = yup.object({
-  username: yup
-    .string('Enter your username')
-    .min(2, 'Too Short!')
-    .max(20, 'Too Long!')
-    .required('Required'),
   firstName: yup
     .string('Enter your First name')
     .min(2, 'Too Short!')
@@ -65,25 +60,26 @@ const Add = ({ onClick, active, refetch, setUsers }) => {
 
   const formik = useFormik({
     initialValues: {
-      "username": '',
+      // "username": '',
       "firstName": '',
       "lastName": '',
-      "date_of_birth": null,
+      "date_of_birth": '',
       "email": '',
-      "password": 'Mancika72',
-      "passwordConfirmation": 'Mancika72',
+      "password": '',
+      "passwordConfirmation": '',
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
       values.date_of_birth = dateOfBirth.toISOString()
       const newData = _.omit(values, 'passwordConfirmation')
       createUser({ variables: { input: newData } }).then((res) => {
-        console.log('createUser promise', res)
+        console.log('createUser promise', res.data.createUser)
         setUsers(prevState => [...prevState, res.data.createUser])
         const variant = 'success'
         enqueueSnackbar('User created successfully', { variant })
         onClick(false)
         setOpen(false)
+        console.log('createUser setUsers')
         refetch();
       }).catch(err => {
         console.log('createUser catch', err)
@@ -130,7 +126,7 @@ const Add = ({ onClick, active, refetch, setUsers }) => {
             <DialogContentText>
               Please, fill form below to add new user
             </DialogContentText>
-            <TextField
+            {/* <TextField
               autoFocus
               margin="dense"
               id="username"
@@ -143,29 +139,16 @@ const Add = ({ onClick, active, refetch, setUsers }) => {
               onChange={formik.handleChange}
               error={formik.touched.username && Boolean(formik.errors.username)}
               helperText={formik.touched.username && formik.errors.username}
-            />
+            /> */}
+
             <TextField
-              autoFocus
-              margin="dense"
-              id="firstName"
-              name="firstName"
-              label="First name"
-              type="text"
               fullWidth
-              variant="standard"
-              value={formik.values.firstName}
-              onChange={formik.handleChange}
-              error={formik.touched.firstName && Boolean(formik.errors.firstName)}
-              helperText={formik.touched.firstName && formik.errors.firstName}
-            />
-            <TextField
               autoFocus
               margin="dense"
               id="lastName"
               name="lastName"
               label="Last name"
               type="text"
-              fullWidth
               variant="standard"
               value={formik.values.lastName}
               onChange={formik.handleChange}
@@ -173,13 +156,29 @@ const Add = ({ onClick, active, refetch, setUsers }) => {
               helperText={formik.touched.lastName && formik.errors.lastName}
             />
             <TextField
+              fullWidth
+              autoFocus
+              margin="dense"
+              id="firstName"
+              name="firstName"
+              label="First name"
+              type="text"
+
+              variant="standard"
+              value={formik.values.firstName}
+              onChange={formik.handleChange}
+              error={formik.touched.firstName && Boolean(formik.errors.firstName)}
+              helperText={formik.touched.firstName && formik.errors.firstName}
+            />
+            <TextField
+              fullWidth
               autoFocus
               margin="dense"
               id="email"
               name="email"
               label="Email Address"
               type="email"
-              fullWidth
+
               variant="standard"
               value={formik.values.email}
               onChange={formik.handleChange}

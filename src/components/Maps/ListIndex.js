@@ -11,6 +11,7 @@ import {
   Box,
   Grid,
   CircularProgress,
+  Alert,
 } from '@mui/material'
 
 import { useTheme } from '@mui/material/styles';
@@ -108,6 +109,7 @@ const ListIndex = () => {
           }
         />
         <Grid container spacing={{ sm: 1, md: 1 }} >
+          {error && <Alert severity="warning"> No maps were found </Alert>}
           {maps && maps.map((map, idx) => {
             return <ListIndexItem data={map} key={idx} title={map.title} />
           })}

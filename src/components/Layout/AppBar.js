@@ -1,8 +1,9 @@
-import React, { useEffect, memo } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useEffect, memo, useContext } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 
 // Material
 import {
+  Avatar,
   AppBar,
   Box,
   Toolbar,
@@ -10,15 +11,25 @@ import {
   Typography,
   Menu,
   Container,
-  Avatar,
+  Divider,
   Button,
   Tooltip,
   MenuItem,
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu';
+import MoreIcon from '@mui/icons-material/MoreVert';
 
+// Custom
+import { authContext } from '../../app/context/authContext'
 
 const HeaderResponsiveAppBar = (props) => {
+
+  const { user, logout } = useContext(authContext)
+  const navigate = useNavigate()
+  const onLogout = () => {
+    logout()
+    navigate('/')
+  }
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -80,10 +91,11 @@ const HeaderResponsiveAppBar = (props) => {
                       {page.name}
                     </Button>
                   )}
-
                 </NavLink>
               ))}
+
             </Box>
+
             {/* 
             Mobile menu
              */}
@@ -129,7 +141,6 @@ const HeaderResponsiveAppBar = (props) => {
                       </Button>
                     )}
                   </NavLink>
-
                 ))}
               </Menu>
             </Box>
@@ -147,10 +158,11 @@ const HeaderResponsiveAppBar = (props) => {
             {/* 
             User menu
              */}
+
             {props.settings && <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  <MoreIcon color="custom" /> {/* <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> */}
                 </IconButton>
               </Tooltip>
               <Menu
@@ -177,6 +189,14 @@ const HeaderResponsiveAppBar = (props) => {
                   </NavLink>
                 )
                 )}
+                {user && <Divider orientation="horizontal" />}
+                {user &&
+                  <NavLink to={'/'} key={'logout'} end>
+                    <MenuItem key={'logoutLink'} onClick={onLogout}>
+                      <Typography textAlign="center">Logout</Typography>
+                    </MenuItem>
+                  </NavLink>
+                }
               </Menu>
             </Box>}
           </Toolbar>

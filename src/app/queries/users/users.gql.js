@@ -8,15 +8,17 @@ export const GET_USERS = gql`
     getUsers(search: $search, page: $page, limit: $limit) {
       users {
         _id
-        username
+        # username
         firstName
         lastName
         email
+        date_of_birth
         updatedAt
         createdAt
       }
       currentPage
       totalPages
+      count
     }
   }
 `;
@@ -25,10 +27,12 @@ export const GET_USER = gql`
   query GetUser($id: ID!) {
     getUser(_id: $id) {
       _id
-      username
+      # username
       firstName
       lastName
       email
+      date_of_birth
+      token
       # ... on UserNotFoundError {
       #   message
       # }
@@ -47,27 +51,46 @@ export const GET_USER = gql`
 export const CREATE_USER = gql`
   mutation CreateUser($input: UserInputCreate!) {
     createUser(input: $input) {
-      user {
+      # user {
         _id
-        username
+        # username
+        firstName
+        lastName
+        date_of_birth
         email
-      }
-      userErrors {
-        message
-        path
-      }
+        password
+        token
+      # }
+      # userErrors {
+      #   message
+      #   path
+      # }
     }
   }
 `;
 
 export const UPDATE_USER = gql`
-  mutation($id: String, $firstName: String, $firstName: String, $email: String, $date_of_birth: String) {
-    updateUserInfo (id: $id, firstName: $firstName, lastName: $lastName, email: $email, date_of_birth: $date_of_birth)
+  mutation UpdateUser($id: ID!, $input: UserInputUpdate!) {
+    updateUser(_id: $id, input: $input) {
+      firstName
+      lastName
+      date_of_birth
+      token
+    }
   }
 `;
 
 export const DELETE_USER = gql`
   mutation($id: String) {
     deleteUser(id: $id)
+  }
+`
+export const LOGIN_USER = gql`
+  mutation LoginUser($input: UserInputLogin) {
+    loginUser(input: $input) {
+      token
+      _id
+      firstName
+    }
   }
 `

@@ -14,7 +14,7 @@ import { useTheme } from '@mui/material/styles';
 // Custom
 import ListIndexItem from './ListIndexItem';
 import { GET_USERS } from "../../app/queries";
-import UserAdd from './Add';
+import Add from './Add';
 import SearchBar from '../Layout/SearchBar';
 
 const ListIndex = () => {
@@ -94,7 +94,7 @@ const ListIndex = () => {
           active={openDialog}
           setOpenDialog={setOpenDialog}
           addComponent={
-            <UserAdd onClick={setOpenDialog} active={openDialog} refetch={refetch} setMaps={setUsers} />
+            <Add onClick={setOpenDialog} active={openDialog} refetch={refetch} setMaps={setUsers} />
           }
         />
         <Grid container spacing={{ sm: 1, md: 1 }} >

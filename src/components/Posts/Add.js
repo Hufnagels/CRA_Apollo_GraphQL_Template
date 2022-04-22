@@ -51,7 +51,7 @@ const validationSchema = yup.object({
     .nullable(true)
     .min(2, 'Too Short!')
     .max(100, 'Too Long!')
-    .transform((_, val) => val === String(val) ? val : null) ,
+    .transform((_, val) => val === String(val) ? val : null),
   description: yup
     .string('Enter your description')
     .nullable(true)

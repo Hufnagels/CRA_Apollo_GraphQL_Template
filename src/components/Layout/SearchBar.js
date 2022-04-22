@@ -37,9 +37,10 @@ const Search = styled('div')(({ theme }) => ({
     color: theme.palette.custom.light
   },
   margin: theme.spacing(1, 1, 1, 0),
-  width: '100%',
+  width: '90%',
   [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(1),
+    marginLeft: theme.spacing(2),
+    marginTop: theme.spacing(1.5),
     width: 'auto',
   },
 }));
@@ -87,7 +88,7 @@ const CustomizedSearch = (props) => {
   }
   return (
     <Search>
-      <Box sx={{ p: '2px 4px', display: 'flex', alignItems: 'stretch', justifyContent: 'space-between' }} >
+      <Box sx={{ display: 'flex', alignItems: 'stretch', justifyContent: 'space-between' }} >
         <StyledInputBase
           style={{ color: grey[800] }}
           placeholder="Search"
@@ -155,8 +156,14 @@ const SearchBar = (props) => {
 
       <ElevationScroll {...props}>
         <AppBar position="static" style={{ backgroundColor: theme.palette.custom.light }}>
-          <Toolbar disableGutters variant="dense">
-            <Box sx={{ m: 1, display: { xs: 'flex', md: 'block' } }}>
+          <Toolbar disableGutters variant="dense" sx={{
+            flexGrow: 1,
+            display: 'flex',
+            flexDirection: { xs: 'column', md: 'row' },
+            alignItems: { xs: 'center', sm: 'flex-start', md: '' },
+          }}
+          >
+            <Box sx={{ m: 1.5 }}>
               <Button
                 variant="contained"
                 color="primary"
@@ -164,17 +171,19 @@ const SearchBar = (props) => {
                 onClick={(e) => { props.setOpenDialog(true) }}
               >Add</Button>
             </Box>
-            <Box sx={{ m: 1, flexGrow: 1 }} >
+
+            <Box sx={{ m: { sx: 1, sm: 1, md: 2 }, flexGrow: 1, display: { xs: 'none', sm: 'block' } }} >
               <Typography
                 variant="h6"
                 noWrap
                 component="div"
                 color="custom.dark"
-                sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+                sx={{ flexGrow: 1, }}
               >
                 {props.title}
               </Typography>
             </Box>
+
             {props.visiblePN &&
               <Stack
                 spacing={2}
@@ -182,16 +191,17 @@ const SearchBar = (props) => {
                 sx={{
                   backgroundColor: theme.palette.custom.light,
                   alignItems: 'center',
-                  marginLeft: theme.spacing(2),
-                  marginRight: theme.spacing(2),
+                  marginLeft: theme.spacing(1),
+                  marginRight: theme.spacing(1),
+                  marginTop: 1
                 }}
                 divider={<Divider orientation="vertical" flexItem />}
               >
                 <Item>
-                  <Pagination 
-                    count={(props.totalpage > 10) ? 10 : props.totalpage} 
-                    page={props.page} 
-                    onChange={handlePageChange} 
+                  <Pagination
+                    count={(props.totalpage > 10) ? 10 : props.totalpage}
+                    page={props.page}
+                    onChange={handlePageChange}
                   />
                 </Item>
                 <Item sx={{ paddingTop: 0.1, paddingBottom: 0.1 }}>
@@ -209,7 +219,8 @@ const SearchBar = (props) => {
                     </Select>
                   </FormControl>
                 </Item>
-              </Stack>}
+              </Stack>
+            }
 
             <CustomizedSearch
               fn={props.fn}

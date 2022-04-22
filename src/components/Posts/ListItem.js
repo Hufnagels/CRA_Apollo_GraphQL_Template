@@ -121,9 +121,8 @@ const Edit = ({ onClick, active, refetch, setData }) => {
   };
 
   const handleClose = () => {
-    navigate(-1)
     setOpen(false);
-    // onClick(false)
+    navigate(-1)
     formik.resetForm()
   };
 
@@ -132,9 +131,11 @@ const Edit = ({ onClick, active, refetch, setData }) => {
   React.useEffect(() => {
     if (!data) return
     //data.getPost = _.omit(data.getPost, ['__typename'])
-    _.merge(formik.initialValues, data.getPost)
+    const filteredData = _.omitBy(data.getPost, _.isNil)
+    _.merge(formik.initialValues, filteredData)
     formik.initialValues = _.omit(formik.initialValues, ['__typename'])
-    console.log('Edit ListIndex --> data useEffect', data.getPost)
+    console.log('Edit ListIndex --> data useEffect orig data', data.getPost)
+    console.log('Edit ListIndex --> data useEffect filteredData', filteredData)
     console.log('Edit ListIndex --> formik initialValues', formik.initialValues)
     setOpen(true)
   }, [data]);
@@ -157,7 +158,6 @@ const Edit = ({ onClick, active, refetch, setData }) => {
         <form onSubmit={formik.handleSubmit}>
           <Dialog
             fullScreen
-            TransitionComponent={Transition}
             open={open}
             onClose={(_, reason) => {
               if (reason !== "backdropClick") {
