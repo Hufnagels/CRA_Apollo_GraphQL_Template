@@ -73,10 +73,10 @@ const Add = ({ onClick, active, refetch, setData }) => {
       const newData = _.merge(values, emptyMapRecord)
       setOpen(false)
       onClick(false)
-      console.log('add map ', newData)
+      //console.log('add map ', newData)
       //return null
       createMindmap({ variables: { input: newData } }).then((res) => {
-        console.log('createMindmap promise', res)
+        //console.log('createMindmap promise', res)
         //setData(prevState => [...prevState, res.data.createMindmap])
         const variant = 'success'
         enqueueSnackbar('Mindmap created successfully', { variant })
@@ -84,7 +84,7 @@ const Add = ({ onClick, active, refetch, setData }) => {
         setOpen(false)
         refetch();
       }).catch(err => {
-        console.log('createMindmap catch', err)
+        //console.log('createMindmap catch', err)
         const variant = 'error'
         enqueueSnackbar(err.message, { variant })
       })

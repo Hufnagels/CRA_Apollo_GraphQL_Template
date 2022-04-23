@@ -1,5 +1,5 @@
 import React, { useState, useEffect, memo, useContext } from 'react';
-import { useRoutes, useNavigate } from 'react-router-dom';
+import { useRoutes, } from 'react-router-dom';
 // import { useSelector, useDispatch } from 'react-redux'
 
 // Material
@@ -13,16 +13,13 @@ const App = () => {
   //const isLoggedIn = true
 
   const { user } = useContext(authContext)
-  const navigate = useNavigate()
   const isLoggedIn = user === null ? false : true
 
-  let page = useRoutes(routes(isLoggedIn));
-  const [loading, setLoading] = React.useState(true)
+  const page = useRoutes(routes(isLoggedIn));
+
   console.log('App user', user);
-
-
   useEffect(() => {
-    console.log("App.js->useEffect");
+    //console.log("App.js->useEffect");
   }, []);
 
   return (

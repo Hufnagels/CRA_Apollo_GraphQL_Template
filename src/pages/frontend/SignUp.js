@@ -11,8 +11,6 @@ import {
   Button,
   CssBaseline,
   TextField,
-  FormControlLabel,
-  Checkbox,
   Link,
   Grid,
   Box,
@@ -28,11 +26,6 @@ import { CREATE_USER } from "../../app/queries";
 import { authContext } from "../../app/context/authContext"
 
 const validationSchema = yup.object({
-  // username: yup
-  //   .string('Enter your username')
-  //   .min(2, 'Too Short!')
-  //   .max(20, 'Too Long!')
-  //   .required('Required'),
   firstName: yup
     .string('Enter your First name')
     .min(2, 'Too Short!')
@@ -62,14 +55,13 @@ const validationSchema = yup.object({
 const SignUp = () => {
   const navigate = useNavigate()
   const context = useContext(authContext)
-  const [createUser, { data, loading, error }] = useMutation(CREATE_USER);
+  const [createUser, { error }] = useMutation(CREATE_USER);
 
   const { enqueueSnackbar } = useSnackbar();
   const [dateOfBirth, setDateOfBirth] = useState(new Date())
 
   const formik = useFormik({
     initialValues: {
-      // "username": '',
       "firstName": '',
       "lastName": '',
       "date_of_birth": '',
@@ -86,12 +78,12 @@ const SignUp = () => {
           variables: { input: newData }
         }
       ).then((res) => {
-        console.log('createUser promise', res.data.createUser)
+        //console.log('createUser promise', res.data.createUser)
         context.login(res.data.createUser)
         //const variant = 'success'
         //enqueueSnackbar('User created successfully', { variant })
         navigate('/')
-        console.log('createUser setUsers')
+        //console.log('createUser setUsers')
       }).catch((err) => {
         //console.log('createUser catch err', err.message)
         const variant = 'error'
@@ -100,14 +92,14 @@ const SignUp = () => {
     },
   })
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   const data = new FormData(event.currentTarget);
+  //   console.log({
+  //     email: data.get('email'),
+  //     password: data.get('password'),
+  //   });
+  // };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -128,7 +120,7 @@ const SignUp = () => {
         </Typography>
         <form onSubmit={formik.handleSubmit}>
           {/*component="form" noValidate onSubmit={handleSubmit}*/}
-          <Box sx={{ mt: 3 }}>
+          <Box sx={{ mt: 1 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField

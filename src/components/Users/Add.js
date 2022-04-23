@@ -73,16 +73,16 @@ const Add = ({ onClick, active, refetch, setUsers }) => {
       values.date_of_birth = dateOfBirth.toISOString()
       const newData = _.omit(values, 'passwordConfirmation')
       createUser({ variables: { input: newData } }).then((res) => {
-        console.log('createUser promise', res.data.createUser)
+        //console.log('createUser promise', res.data.createUser)
         setUsers(prevState => [...prevState, res.data.createUser])
         const variant = 'success'
         enqueueSnackbar('User created successfully', { variant })
         onClick(false)
         setOpen(false)
-        console.log('createUser setUsers')
+        //console.log('createUser setUsers')
         refetch();
       }).catch(err => {
-        console.log('createUser catch', err)
+        //console.log('createUser catch', err)
         const variant = 'error'
         enqueueSnackbar(err.message, { variant })
       })

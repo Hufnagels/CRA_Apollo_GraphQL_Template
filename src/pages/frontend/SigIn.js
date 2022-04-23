@@ -1,7 +1,6 @@
-import React, { useState, useContext, } from 'react';
+import React, { useContext, } from 'react';
 import { useFormik, } from 'formik';
 import * as yup from 'yup';
-import _ from 'lodash';
 import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router-dom'
 
@@ -11,14 +10,11 @@ import {
   Button,
   CssBaseline,
   TextField,
-  FormControlLabel,
-  Checkbox,
   Link,
   Paper,
   Grid,
   Box,
   Typography,
-  Container
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
@@ -41,7 +37,7 @@ const validationSchema = yup.object({
 const SignInSide = () => {
   const navigate = useNavigate()
   const context = useContext(authContext)
-  const [loginUser, { data, loading, error }] = useMutation(LOGIN_USER);
+  const [loginUser, { error }] = useMutation(LOGIN_USER);
   const { enqueueSnackbar } = useSnackbar();
 
   const formik = useFormik({
@@ -56,12 +52,12 @@ const SignInSide = () => {
           variables: { input: values }
         }
       ).then((res) => {
-        console.log('loginUser promise', res.data.loginUser)
+        //console.log('loginUser promise', res.data.loginUser)
         context.login(res.data.loginUser)
         //const variant = 'success'
         //enqueueSnackbar('User created successfully', { variant })
         navigate('/')
-        console.log('loginUser setUsers')
+        //console.log('loginUser setUsers')
       }).catch((err) => {
         //console.log('loginUser catch err', err.message)
         const variant = 'error'
@@ -70,14 +66,14 @@ const SignInSide = () => {
     },
   })
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   const data = new FormData(event.currentTarget);
+  //   console.log({
+  //     email: data.get('email'),
+  //     password: data.get('password'),
+  //   });
+  // };
 
   return (
     <Grid container component="main" sx={{ height: '100vh' }}>

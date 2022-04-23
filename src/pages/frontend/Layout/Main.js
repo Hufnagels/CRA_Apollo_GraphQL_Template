@@ -14,25 +14,16 @@ const Main = () => {
   }, []);
 
   return (
-   <React.Fragment>
-    <Grid container sx={{margin: '0',padding: '1rem', }}>
-      <Grid item xs>
-        <Box sx={{ minHeight:'calc(100vh - 193px)',}}>
-          <Outlet />
-        </Box>      
+    <React.Fragment>
+      <Grid container sx={{ margin: '0', padding: '1rem', }}>
+        <Grid item xs>
+          <Box sx={{ minHeight: 'calc(100vh - 193px)', }}>
+            <Outlet />
+          </Box>
+        </Grid>
       </Grid>
-    </Grid>
-   </React.Fragment>
+    </React.Fragment>
   );
 };
 
 export default memo(Main);
-
-function convertToSlug(Text)
-{
-    return Text
-        .toLowerCase()
-        .replace(/ /g,'-')
-        .replace(/[^\w-]+/g,'')
-        ;
-}

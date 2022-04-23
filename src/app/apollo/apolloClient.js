@@ -22,25 +22,25 @@ const authLink = setContext((_, { headers }) => {
   }
 })
 
-const errorLink = onError(({graphQLErrors, networkError}) => {
-  if (graphQLErrors) 
-    graphQLErrors.forEach( ({message, locations, path}) => console.dir(
-    `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors)
+    graphQLErrors.forEach(({ message, locations, path }) => console.dir(
+      `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
     ),
-  )
+    )
   if (networkError) console.dir('NetworkError', networkError)
 })
 
 
-const tokenLink = new ApolloLink((operation, forward) => {
-  const token = localStorage.getItem('token')
-  operation.setContext({
-    headers: {
-      authorization: token ? `Bearer ${token}` : 'No valid token found'
-    }
-  })
-  return forward(operation)
-})
+// const tokenLink = new ApolloLink((operation, forward) => {
+//   const token = localStorage.getItem('token')
+//   operation.setContext({
+//     headers: {
+//       authorization: token ? `Bearer ${token}` : 'No valid token found'
+//     }
+//   })
+//   return forward(operation)
+// })
 
 const client = new ApolloClient({
   //uri: process.env.REACT_APP_NODESERVER_BASEURL,
@@ -49,7 +49,7 @@ const client = new ApolloClient({
   connectToDevTools: true
 });
 
-const CustomApolloProvider = ({children}) => {
+const CustomApolloProvider = ({ children }) => {
   return (
     <ApolloProvider client={client}>
       {children}

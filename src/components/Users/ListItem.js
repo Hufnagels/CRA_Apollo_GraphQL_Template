@@ -1,10 +1,7 @@
 import React from 'react'
 import { useParams, useNavigate } from "react-router-dom";
-import {
-  useQuery,
-} from "@apollo/client";
+import { useQuery, } from "@apollo/client";
 
-//62228c5a6f023f2f67c580e71
 import { GET_USER } from "../../app/queries";
 
 const ListItem = () => {
@@ -20,7 +17,7 @@ const ListItem = () => {
     //console.log('PostsListIndex --> data useEffect')
     if (!data) return
     setUser(data.getUser)
-    console.log(data)
+    // console.log(data)
   }, [data])
 
   if (loading) return "Loading...."

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import { useParams, useNavigate } from "react-router-dom";
 import {
   useQuery,
@@ -15,7 +14,6 @@ import {
   Typography,
 } from '@mui/material'
 
-
 // Custom
 import { GET_POST } from "../../app/queries";
 
@@ -25,7 +23,7 @@ const Preview = (props) => {
 
   //const { post } = props;
   const [post, setPost] = React.useState([])
-  console.log('Preview props', props, id);
+  //console.log('Preview props', props, id);
 
   const { data, loading, error, refetch } = useQuery(GET_POST, {
     variables: { id: id }
@@ -35,11 +33,11 @@ const Preview = (props) => {
     //console.log('PostsListIndex --> data useEffect')
     if (!data) return
     setPost(data.getPost)
-    console.log(data)
+    //console.log(data)
   }, [data])
 
   if (loading) return <CircularProgress color="secondary" />
-  console.log('data', data)
+  //console.log('data', data)
   //return null
   return (
     <React.Fragment>

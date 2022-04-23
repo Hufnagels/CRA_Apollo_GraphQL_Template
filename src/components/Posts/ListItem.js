@@ -68,7 +68,7 @@ const validationSchema = yup.object({
 const Edit = ({ onClick, active, refetch, setData }) => {
   let { id } = useParams('id');
   const navigate = useNavigate();
-  console.log('Edit', id);
+  //console.log('Edit', id);
   const { enqueueSnackbar } = useSnackbar();
 
   const [open, setOpen] = React.useState(false);
@@ -93,11 +93,11 @@ const Edit = ({ onClick, active, refetch, setData }) => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log('values', values)
+      // console.log('values', values)
       const newData = _.omit(values, ['author', '__typename'])
 
       updatePost({ variables: { id: id, input: newData } }).then((res) => {
-        console.log(res)
+        // console.log(res)
         //setData(prevState => [...prevState, res.data.updatePost])
         const variant = 'success'
         enqueueSnackbar('Post updated successfully', { variant })
@@ -134,9 +134,9 @@ const Edit = ({ onClick, active, refetch, setData }) => {
     const filteredData = _.omitBy(data.getPost, _.isNil)
     _.merge(formik.initialValues, filteredData)
     formik.initialValues = _.omit(formik.initialValues, ['__typename'])
-    console.log('Edit ListIndex --> data useEffect orig data', data.getPost)
-    console.log('Edit ListIndex --> data useEffect filteredData', filteredData)
-    console.log('Edit ListIndex --> formik initialValues', formik.initialValues)
+    // console.log('Edit ListIndex --> data useEffect orig data', data.getPost)
+    // console.log('Edit ListIndex --> data useEffect filteredData', filteredData)
+    // console.log('Edit ListIndex --> formik initialValues', formik.initialValues)
     setOpen(true)
   }, [data]);
 

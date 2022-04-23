@@ -82,11 +82,11 @@ const Add = ({ onClick, active, refetch, setData }) => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log('values', values)
+      // console.log('values', values)
       //const newData = _.omit(values, 'passwordConfirmation')
 
       createPost({ variables: { input: values } }).then((res) => {
-        console.log(res)
+        // console.log(res)
         //setData(prevState => [...prevState, res.data.createPost])
         const variant = 'success'
         enqueueSnackbar('User created successfully', { variant })

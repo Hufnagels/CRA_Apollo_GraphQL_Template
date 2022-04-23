@@ -25,8 +25,6 @@ import Blog from "../../pages/frontend/Blog"
 import SignInSide from "../../pages/frontend/SigIn";
 import SignUp from "../../pages/frontend/SignUp";
 
-import Logout from "../../pages/frontend/Layout/Logout";
-
 const routes = (isLoggedIn) => [
   {
     path: "/app",
@@ -101,8 +99,7 @@ const routes = (isLoggedIn) => [
         ],
       },
       { path: '/', element: <Home /> }, //<Navigate to="/login" /> },
-      { path: '/logout', element: <Logout /> }, //<Navigate to="/login" /> },
-      
+
       { path: "*", element: <NoMatch /> },
     ],
   },

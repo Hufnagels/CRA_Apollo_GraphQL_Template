@@ -55,7 +55,7 @@ const ListIndex = () => {
   }, [data])
 
   React.useEffect(() => {
-    console.log('ListIndex --> search useEffect', page, perpage, totalpage, data)
+    //console.log('ListIndex --> search useEffect', page, perpage, totalpage, data)
     if (!page) return
     fetchFilteredUsers({
       variables: {

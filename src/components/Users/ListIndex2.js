@@ -81,7 +81,7 @@ const ListIndex2 = () => {
   })
 
   React.useEffect(() => {
-    console.log('ListIndex --> search useEffect #1', page, perpage, totalpage, data)
+    //console.log('ListIndex --> search useEffect #1', page, perpage, totalpage, data)
     if (!data) return
     if (!(typeof data.getUsers === 'undefined')) return
     setUsers(data.getUsers.users)
@@ -94,7 +94,7 @@ const ListIndex2 = () => {
   }, [data])
 
   React.useEffect(() => {
-    console.log('ListIndex --> search useEffect #2', page, perpage, totalpage, data)
+    //console.log('ListIndex --> search useEffect #2', page, perpage, totalpage, data)
     //if (!page) return
     fetchFilteredUsers({
       variables: {
@@ -103,13 +103,13 @@ const ListIndex2 = () => {
         limit: perpage
       }
     }).then((res) => {
-      console.log('res', res)
+      //console.log('res', res)
       setUsers(res.data.getUsers.users)
       setTotalPage(res.data.getUsers.totalPages)
       setPage(res.data.getUsers.currentPage)
       setCount(res.data.getUsers.count)
     }).catch((err) => {
-      console.log('err', err)
+      //console.log('err', err)
     })
     //if (!search) return
 

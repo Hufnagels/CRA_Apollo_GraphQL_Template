@@ -207,11 +207,3 @@ const HeaderResponsiveAppBar = (props) => {
 };
 
 export default memo(HeaderResponsiveAppBar);
-
-function convertToSlug(Text) {
-  return Text
-    .toLowerCase()
-    .replace(/ /g, '-')
-    .replace(/[^\w-]+/g, '')
-    ;
-}

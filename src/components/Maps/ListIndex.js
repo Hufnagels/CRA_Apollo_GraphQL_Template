@@ -23,7 +23,7 @@ import { GET_MAPS } from "../../app/queries";
 import Add from './Add';
 
 const ListIndex = () => {
-  console.log('ListIndex')
+  //console.log('ListIndex')
   const location = useLocation();
 
   const theme = useTheme();
@@ -62,7 +62,7 @@ const ListIndex = () => {
 
   //////////////////// TEST
   React.useEffect(() => {
-    console.log('ListIndex --> search useEffect', page, perpage, totalpage, data)
+    //console.log('ListIndex --> search useEffect', page, perpage, totalpage, data)
     if (!page) return
     fetchFilteredMaps({
       variables: {
@@ -71,7 +71,7 @@ const ListIndex = () => {
         limit: perpage
       }
     }).then((res) => {
-      console.log('res', res.data.getMaps)
+      //console.log('res', res.data.getMaps)
       if (res.data.getMaps.maps) { }
       setMaps(res.data.getMaps.maps)
       setTotalPage(res.data.getMaps.totalPages)
