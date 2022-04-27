@@ -32,19 +32,19 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 })
 
 
-// const tokenLink = new ApolloLink((operation, forward) => {
-//   const token = localStorage.getItem('token')
-//   operation.setContext({
-//     headers: {
-//       authorization: token ? `Bearer ${token}` : 'No valid token found'
-//     }
-//   })
-//   return forward(operation)
-// })
+const tokenLink = new ApolloLink((operation, forward) => {
+  const token = localStorage.getItem('token') || ""
+  operation.setContext({
+    headers: {
+      authorization: token ? `Bearer ${token}` : 'No valid token found'
+    }
+  })
+  return forward(operation)
+})
 
 const client = new ApolloClient({
   //uri: process.env.REACT_APP_NODESERVER_BASEURL,
-  link: from([httpLink, authLink, errorLink]),
+  link: tokenLink.concat(httpLink), //from([httpLink, authLink, errorLink]),
   cache: new InMemoryCache(),
   connectToDevTools: true
 });

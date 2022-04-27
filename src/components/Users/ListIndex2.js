@@ -139,7 +139,7 @@ const ListIndex2 = () => {
             <Add onClick={setOpenDialog} active={openDialog} refetch={refetch} setUsers={setUsers} />
           }
         />
-        {error && <Alert severity="warning">No users were found</Alert>}
+        {error && <Alert severity="warning">{JSON.stringify(error, null, 2)}</Alert>}
         {users && !error && <React.Fragment>
           <TableContainer component={Paper} sx={{ maxHeight: 590 }}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table" stickyHeader>

@@ -3,6 +3,7 @@ import { useFormik, } from 'formik';
 import * as yup from 'yup';
 import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
 
 // Material
 import {
@@ -10,6 +11,11 @@ import {
   Button,
   CssBaseline,
   TextField,
+  IconButton,
+  Input,
+  InputLabel,
+  InputAdornment,
+  FormControl,
   Link,
   Paper,
   Grid,
@@ -17,11 +23,14 @@ import {
   Typography,
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 // Custom
 import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../../app/queries";
 import { authContext } from "../../app/context/authContext"
+import { login } from '../../app/reducers/userSlice'
 
 const validationSchema = yup.object({
   email: yup
@@ -35,11 +44,26 @@ const validationSchema = yup.object({
 });
 
 const SignInSide = () => {
+
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const context = useContext(authContext)
   const [loginUser, { error }] = useMutation(LOGIN_USER);
   const { enqueueSnackbar } = useSnackbar();
-
+  const [values, setValues] = React.useState({
+    email: '',
+    password:'',
+    showPassword: false,
+  });
+  const handleClickShowPassword = () => {
+    setValues({
+      ...values,
+      showPassword: !values.showPassword,
+    });
+  };
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
   const formik = useFormik({
     initialValues: {
       "email": '',
@@ -52,8 +76,9 @@ const SignInSide = () => {
           variables: { input: values }
         }
       ).then((res) => {
-        //console.log('loginUser promise', res.data.loginUser)
+        console.log('loginUser promise', res.data.loginUser)
         context.login(res.data.loginUser)
+        dispatch(login(res.data.loginUser))
         //const variant = 'success'
         //enqueueSnackbar('User created successfully', { variant })
         navigate('/')
@@ -126,7 +151,31 @@ const SignInSide = () => {
                 error={formik.touched.email && Boolean(formik.errors.email)}
                 helperText={formik.touched.email && formik.errors.email}
               />
-              <TextField
+              <FormControl sx={{ my: 1, /* width: '25ch' */ }} fullWidth variant="standard">
+                <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+                <Input
+                  id="password"
+                  name="password"
+                  label="Password"
+                  type={values.showPassword ? 'text' : 'password'}
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                  error={formik.touched.password && Boolean(formik.errors.password)}
+                  helperText={formik.touched.password && formik.errors.password}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                      >
+                        {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
+              {/*<TextField
                 fullWidth
                 id="password"
                 name="password"
@@ -139,7 +188,7 @@ const SignInSide = () => {
                 error={formik.touched.password && Boolean(formik.errors.password)}
                 helperText={formik.touched.password && formik.errors.password}
               />
-              {/* <FormControlLabel
+               <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             /> */}
